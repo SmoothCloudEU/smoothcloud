@@ -43,7 +43,17 @@
         <dependency>
             <groupId>de.syntaxjason</groupId>
             <artifactId>NetBridge</artifactId>
-            <version>1.0-BETA</version>
+            <version>1.6-BETA</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.17.0</version>
+        </dependency>
+        <dependency>
+            <groupId>me.syntaxjason</groupId>
+            <artifactId>configurationprovider</artifactId>
+            <version>0.1.4-BETA</version>
         </dependency>
     </dependencies>
 

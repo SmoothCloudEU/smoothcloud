@@ -25,6 +25,16 @@ public class ServerImpl implements Server {
     }
 
     @Override
+    public String toHash() {
+        return null;
+    }
+
+    @Override
+    public Server fromHash() {
+        return null;
+    }
+
+    @Override
     public ServerInfo getServerInfo() {
         return null;
     }

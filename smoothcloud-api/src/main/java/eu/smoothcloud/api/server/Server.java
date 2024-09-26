@@ -15,4 +15,7 @@ public interface Server {
     ServerInfo getServerInfo();
     ServerInfo getLastServerInfo();
 
+    String toHash();
+    Server fromHash();
+
 }

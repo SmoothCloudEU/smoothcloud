@@ -9,12 +9,11 @@ import lombok.Getter;
 
 @Getter
 public class SmoothCloudNode implements SmoothCloudAPI {
-    private final CloudTerminal cloudTerminal;
+    private final CloudTerminal cloudTerminal = null;
     private NetbridgeInstance<NetbridgeServer> networkInstance;
 
     public SmoothCloudNode() {
-        this.cloudTerminal = new CloudTerminal();
-        this.cloudTerminal.run();
+        startNetwork("localhost", 25565);
     }
 
     private void startNetwork(String hostAddress, int port) {
