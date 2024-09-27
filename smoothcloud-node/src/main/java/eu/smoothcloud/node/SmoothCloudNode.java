@@ -18,6 +18,6 @@ public class SmoothCloudNode implements SmoothCloudAPI {
 
     private void startNetwork(String hostAddress, int port) {
         networkInstance = new NetbridgeServer(port, hostAddress);
-        new Network(networkInstance);
+        new Network(networkInstance.getInstance());
     }
 }
