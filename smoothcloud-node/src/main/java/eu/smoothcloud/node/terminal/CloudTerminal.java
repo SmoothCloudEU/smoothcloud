@@ -9,12 +9,17 @@ import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.InfoCmp;
 
+import java.io.IOException;
+
 public class CloudTerminal {
     private final Terminal terminal;
 
-    @SneakyThrows
     public CloudTerminal() {
-        this.terminal = TerminalBuilder.terminal();
+        try {
+            this.terminal = TerminalBuilder.terminal();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @SneakyThrows

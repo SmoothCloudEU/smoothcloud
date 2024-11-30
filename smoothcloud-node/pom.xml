@@ -48,7 +48,7 @@
         <dependency>
             <groupId>de.syntaxjason</groupId>
             <artifactId>NetBridge</artifactId>
-            <version>1.6-BETA</version>
+            <version>1.7-BETA</version>
         </dependency>
         <dependency>
             <groupId>me.syntaxjason</groupId>

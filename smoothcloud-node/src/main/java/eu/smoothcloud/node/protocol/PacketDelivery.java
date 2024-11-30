@@ -1,6 +1,7 @@
 package eu.smoothcloud.node.protocol;
 
 import de.syntaxjason.core.network.channel.Channel;
+import de.syntaxjason.core.protocol.Packet;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -24,7 +25,7 @@ public class PacketDelivery {
                 System.arraycopy(header, 0, fullPacket, 0, header.length);
                 System.arraycopy(packetBytes, 0, fullPacket, header.length, packetBytes.length);
                 System.out.println("Sending packet: " + packetId + " with bytes: " + Arrays.toString(fullPacket));
-                channel.send(fullPacket);
+                channel.send(Packet.createPacket(fullPacket));
                 return;
             }
         }
@@ -32,7 +33,7 @@ public class PacketDelivery {
 
     public void sendAll() throws IOException {
         for (MinecraftPacket packet : packets) {
-            channel.send(packet.toByteArray());
+            channel.send(Packet.createPacket(packet.toByteArray()));
         }
     }
 }
