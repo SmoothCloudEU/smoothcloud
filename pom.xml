@@ -12,7 +12,12 @@
     <modules>
         <module>smoothcloud-api</module>
         <module>smoothcloud-node</module>
-        <module>smoothcloud-wrapper</module>
+        <module>smoothcloud-worker</module>
+        <module>smoothcloud-chain</module>
+        <module>smoothcloud-modules</module>
+        <module>smoothcloud-manager</module>
+        <module>smoothcloud-api/manager-api</module>
+        <module>smoothcloud-api/node-api</module>
     </modules>
 
     <properties>

@@ -7,21 +7,13 @@
         <groupId>eu.smoothcloud</groupId>
         <artifactId>smoothcloud-parent</artifactId>
         <version>1.0-INDEV</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
-    <artifactId>smoothcloud-api</artifactId>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>node-api</module>
-        <module>worker-api</module>
-        <module>chain-api</module>
-        <module>modules-api</module>
-        <module>manager-api</module>
-    </modules>
+    <artifactId>manager-api</artifactId>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>22</maven.compiler.source>
+        <maven.compiler.target>22</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
