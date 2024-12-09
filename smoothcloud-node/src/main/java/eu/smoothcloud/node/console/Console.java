@@ -2,6 +2,7 @@ package eu.smoothcloud.node.console;
 
 import eu.smoothcloud.node.console.modes.DefaultMode;
 import eu.smoothcloud.node.console.modes.Mode;
+import eu.smoothcloud.node.console.modes.SetupMode;
 
 import java.util.Scanner;
 
@@ -52,29 +53,27 @@ public class Console {
 
     private void switchMode(String modeName) {
         switch (modeName.toLowerCase()) {
-            case "setup" -> {
-
-            }
-            case "default" -> {
-
-            }
-            default -> {
-
-            }
+            case "setup" -> currentMode = new SetupMode(this);
+            case "default" -> currentMode = new DefaultMode(this);
+            default -> print("Unknown mode: " + modeName);
         }
     }
 
-    private void print(String message) {
+    public void print(String message) {
+        if (currentMode == null) {
+            throw new IllegalStateException("Current mode is not initialized");
+        }
         print(message, true);
     }
 
-    private void print(String message, boolean newLine) {
-        String coloredMessage = ConsoleColor.apply(message);
-        if(newLine) {
+    public void print(String message, boolean newLine) {
+        String prefix = currentMode != null ? currentMode.getName() : "NoMode";
+        String coloredMessage = ConsoleColor.apply(prefix + message);
+        if (newLine) {
             System.out.println(coloredMessage);
-            return;
+        } else {
+            System.out.print(coloredMessage);
         }
-        System.out.print(coloredMessage);
     }
 
     public void setPaused(boolean paused) {
