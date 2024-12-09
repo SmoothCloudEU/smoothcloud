@@ -23,17 +23,25 @@
             <url>https://www.syntaxjason.de/maven/beta</url>
         </repository>
     </repositories>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>22</source>
+                    <target>22</target>
+                    <compilerArgs>--enable-preview</compilerArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
             <groupId>${parent.groupId}</groupId>
             <artifactId>smoothcloud-api</artifactId>
             <version>${parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jline</groupId>
-            <artifactId>jline</artifactId>
-            <version>3.27.0</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -46,19 +54,9 @@
             <version>3.17.0</version>
         </dependency>
         <dependency>
-            <groupId>de.syntaxjason</groupId>
-            <artifactId>NetBridge</artifactId>
-            <version>1.7-BETA</version>
-        </dependency>
-        <dependency>
-            <groupId>me.syntaxjason</groupId>
-            <artifactId>configurationprovider</artifactId>
-            <version>0.1.4-BETA</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>33.2.1-jre</version>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>5.0.0.Alpha2</version>
         </dependency>
     </dependencies>
 
