@@ -3,8 +3,6 @@ package eu.smoothcloud.node.console.modes;
 import eu.smoothcloud.node.console.Console;
 import eu.smoothcloud.node.console.ConsoleColor;
 
-import static java.lang.StringTemplate.STR;
-
 public class SetupMode extends Mode {
 
     private Console console;
@@ -20,6 +18,6 @@ public class SetupMode extends Mode {
 
     @Override
     public void handleCommand(String command) {
-        String prefix = ConsoleColor.apply(STR."&e\{getName()} &7- ");
+        String prefix = ConsoleColor.apply("&e" + getName() + " &7- ");
     }
 }
