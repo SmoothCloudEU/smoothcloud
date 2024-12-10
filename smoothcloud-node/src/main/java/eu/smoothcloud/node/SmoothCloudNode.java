@@ -18,7 +18,6 @@ public class SmoothCloudNode  {
         System.out.println("DEBUG: Before console.start()");
         manager.startTask("Console", this::startConsole);
         print(console);
-        this.launchConfiguration = new LaunchConfiguration();
     }
 
     private void startConsole() {
