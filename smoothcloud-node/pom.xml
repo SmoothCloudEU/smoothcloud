@@ -12,26 +12,17 @@
     <artifactId>smoothcloud-node</artifactId>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>SyntaxJason-Beta</id>
-            <url>https://www.syntaxjason.de/maven/beta</url>
-        </repository>
-    </repositories>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>22</source>
-                    <target>22</target>
-                    <compilerArgs>--enable-preview</compilerArgs>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -39,14 +30,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>${parent.groupId}</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>smoothcloud-api</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.34</version>
+            <version>1.18.36</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -55,8 +46,8 @@
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>5.0.0.Alpha2</version>
+            <artifactId>netty5-all</artifactId>
+            <version>5.0.0.Alpha5</version>
         </dependency>
     </dependencies>
 
