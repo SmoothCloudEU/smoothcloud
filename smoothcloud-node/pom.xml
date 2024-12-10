@@ -46,8 +46,8 @@
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
-            <artifactId>netty5-all</artifactId>
-            <version>5.0.0.Alpha5</version>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.115.Final</version>
         </dependency>
     </dependencies>
 
