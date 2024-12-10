@@ -1,5 +1,6 @@
 package eu.smoothcloud.node;
 
+import eu.smoothcloud.node.configuration.LaunchConfiguration;
 import eu.smoothcloud.node.console.Console;
 import eu.smoothcloud.node.util.ThreadManager;
 
@@ -9,14 +10,15 @@ public class SmoothCloudNode  {
         new SmoothCloudNode();
     }
 
+    private LaunchConfiguration launchConfiguration;
     private Console console;
 
     public SmoothCloudNode() {
         ThreadManager manager = new ThreadManager(12);
-
         System.out.println("DEBUG: Before console.start()");
         manager.startTask("Console", this::startConsole);
         print(console);
+        this.launchConfiguration = new LaunchConfiguration();
     }
 
     private void startConsole() {
@@ -27,5 +29,4 @@ public class SmoothCloudNode  {
     private void print(Console console) {
         console.print("&eInitialize Cloud");
     }
-
 }
