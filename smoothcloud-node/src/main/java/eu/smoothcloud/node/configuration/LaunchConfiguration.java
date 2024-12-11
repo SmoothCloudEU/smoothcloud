@@ -1,10 +1,26 @@
 package eu.smoothcloud.node.configuration;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import eu.smoothcloud.lib.json.Json;
+import eu.smoothcloud.lib.json.annotations.JsonField;
+import lombok.Getter;
+import lombok.Setter;
 
-public class LaunchConfiguration {
-    private final JSONObject jsonObject;
+@Getter
+@Setter
+public abstract class LaunchConfiguration extends Json {
+
+    @JsonField(value = "language")
+    private String language;
+    @JsonField(value = "host")
+    private String host;
+    @JsonField(value = "port")
+    private int port;
+    @JsonField(value = "memory")
+    private int memory;
+    @JsonField(value = "threads")
+    private int threads;
+
+    /*private final JSONObject jsonObject;
 
     public LaunchConfiguration() {
         this.jsonObject = new JSONObject("launcher.json");
@@ -26,6 +42,8 @@ public class LaunchConfiguration {
         this.setValue("memory", memory);
     }
 
+    public void setThreads(int threads) { this.setValue("threads", threads); }
+
     public String getLanguage() {
         return (String) this.getValue("language");
     }
@@ -41,6 +59,8 @@ public class LaunchConfiguration {
     public String getMemory() {
         return (String) this.getValue("memory");
     }
+
+    public int getThreads() { return (int) this.getValue("threads"); }
 
     private boolean setValue(String key, Object value) {
         try {
@@ -59,5 +79,5 @@ public class LaunchConfiguration {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 }

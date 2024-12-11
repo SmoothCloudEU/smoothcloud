@@ -25,14 +25,29 @@
                     <target>17</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>target/generated-sources/annotations</path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
     <dependencies>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>smoothcloud-api</artifactId>
-            <version>${project.parent.version}</version>
+            <groupId>eu.smoothcloud</groupId>
+            <artifactId>node-api</artifactId>
+            <version>1.0-INDEV</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.smoothcloud</groupId>
+            <artifactId>smoothcloud-chain</artifactId>
+            <version>1.0-INDEV</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -49,11 +64,5 @@
             <artifactId>netty5-all</artifactId>
             <version>5.0.0.Alpha5</version>
         </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20240303</version>
-        </dependency>
     </dependencies>
-
 </project>
