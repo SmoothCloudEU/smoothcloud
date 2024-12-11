@@ -11,4 +11,12 @@ public class CloudChain {
         System.out.println(ConsoleColor.apply(PREFIX + "&eInitialize Chain"));
     }
 
+    public void initialize() {
+
+    }
+
+    public String getSomething() {
+        return "";
+    }
+
 }

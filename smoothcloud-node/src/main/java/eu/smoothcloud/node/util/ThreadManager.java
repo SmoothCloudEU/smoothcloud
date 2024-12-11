@@ -3,10 +3,7 @@ package eu.smoothcloud.node.util;
 import eu.smoothcloud.node.console.ConsoleColor;
 
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 public class ThreadManager {
 
@@ -29,6 +26,17 @@ public class ThreadManager {
         taskMap.put(taskName, future);
         System.out.println(ConsoleColor.apply(PREFIX + "&eTask &b" + taskName + " &estarted."));
     }
+
+    public <T> Future<T> submitTask(String taskName, Callable<T> task) {
+        if(taskMap.containsKey(taskName)) {
+            System.out.println(ConsoleColor.apply(PREFIX + "&eTask &b" + taskName + " &eis already running."));
+            return null;
+        }
+        Future<T> future = executorService.submit(task);
+        taskMap.put(taskName, future);
+        System.out.println(ConsoleColor.apply(PREFIX + "&eTask &b" + taskName + " &estarted."));
+        return future;
+     }
 
     public void stopTask(String taskName) {
         Future<?> future = taskMap.get(taskName);
