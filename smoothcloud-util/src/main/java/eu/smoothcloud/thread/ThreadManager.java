@@ -1,4 +1,4 @@
-package eu.smoothcloud.node.util;
+package eu.smoothcloud.thread;
 
 import eu.smoothcloud.node.console.ConsoleColor;
 

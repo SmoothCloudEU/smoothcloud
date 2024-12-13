@@ -40,14 +40,19 @@
 
     <dependencies>
         <dependency>
-            <groupId>eu.smoothcloud</groupId>
+            <groupId>${parent.groupId}</groupId>
             <artifactId>node-api</artifactId>
-            <version>1.0-INDEV</version>
+            <version>${parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>eu.smoothcloud</groupId>
+            <groupId>${parent.groupId}</groupId>
+            <artifactId>smoothcloud-util</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${parent.groupId}</groupId>
             <artifactId>smoothcloud-chain</artifactId>
-            <version>1.0-INDEV</version>
+            <version>${parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

@@ -1,4 +1,4 @@
-package eu.smoothcloud.node.util;
+package eu.smoothcloud.thread;
 
 import java.util.concurrent.Future;
 

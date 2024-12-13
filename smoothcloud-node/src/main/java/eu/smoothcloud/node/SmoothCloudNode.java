@@ -3,10 +3,8 @@ package eu.smoothcloud.node;
 import eu.smoothcloud.chain.CloudChain;
 import eu.smoothcloud.node.configuration.LaunchConfiguration;
 import eu.smoothcloud.node.console.Console;
-import eu.smoothcloud.node.util.ThreadBound;
-import eu.smoothcloud.node.util.ThreadManager;
-
-import java.util.concurrent.Future;
+import eu.smoothcloud.thread.ThreadBound;
+import eu.smoothcloud.thread.ThreadManager;
 
 public class SmoothCloudNode  {
 
@@ -27,12 +25,6 @@ public class SmoothCloudNode  {
 
         ThreadBound<CloudChain> cloudChain = new ThreadBound<>(manager, "CloudChain", new CloudChain());
         cloudChain.runOnThread(CloudChain::initialize);
-        Future<String> result = cloudChain.callOnThread(CloudChain::getSomething);
-        try {
-            System.out.println("Result: " + result.get());
-        } catch (Exception e) {
-            e.fillInStackTrace();
-        }
     }
 
     private void startCloudChain() {

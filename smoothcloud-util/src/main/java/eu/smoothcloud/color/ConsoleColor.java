@@ -1,4 +1,4 @@
-package eu.smoothcloud.chain.util;
+package eu.smoothcloud.color;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

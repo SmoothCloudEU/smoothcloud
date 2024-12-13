@@ -1,6 +1,7 @@
 package eu.smoothcloud.chain;
 
-import eu.smoothcloud.chain.util.ConsoleColor;
+
+import eu.smoothcloud.color.ConsoleColor;
 
 public class CloudChain {
 
@@ -13,10 +14,6 @@ public class CloudChain {
 
     public void initialize() {
 
-    }
-
-    public String getSomething() {
-        return "";
     }
 
 }
