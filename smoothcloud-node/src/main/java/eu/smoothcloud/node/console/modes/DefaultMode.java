@@ -43,6 +43,9 @@ public class DefaultMode extends Mode {
                 this.console.print("[313131]» ");
                 this.console.print("[313131]--------------[00FFFF]Help[313131]--------------");
             }
+            case "clear" -> {
+                this.console.clear();
+            }
         }
     }
 }

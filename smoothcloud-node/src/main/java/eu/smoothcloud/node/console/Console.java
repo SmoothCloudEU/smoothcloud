@@ -20,6 +20,8 @@ import eu.smoothcloud.node.console.modes.Mode;
 import eu.smoothcloud.node.console.modes.SetupMode;
 import eu.smoothcloud.util.console.ConsoleColor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Console {
@@ -36,7 +38,6 @@ public class Console {
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
-
         while (isRunning) {
             if (isPaused) {
                 String input = scanner.nextLine().trim();
@@ -47,6 +48,12 @@ public class Console {
             }
 
             String input = scanner.nextLine().trim();
+
+            if (input.equalsIgnoreCase("")) {
+                this.print("[FF3333]The input field can not be empty.");
+                this.print("", false);
+                continue;
+            }
 
             switch (input.toLowerCase()) {
                 case "exit" -> {
@@ -94,6 +101,15 @@ public class Console {
         System.out.print(coloredMessage);
     }
 
+    public void clear() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    public Mode getCurrentMode() {
+        return currentMode;
+    }
+
     public void setPaused(boolean paused) {
         isPaused = paused;
     }
@@ -109,5 +125,4 @@ public class Console {
     public boolean isRunning() {
         return isRunning;
     }
-
 }
