@@ -18,6 +18,7 @@ package eu.smoothcloud.node.console;
 import eu.smoothcloud.node.console.modes.DefaultMode;
 import eu.smoothcloud.node.console.modes.Mode;
 import eu.smoothcloud.node.console.modes.SetupMode;
+import eu.smoothcloud.util.console.ConsoleColor;
 
 import java.util.Scanner;
 

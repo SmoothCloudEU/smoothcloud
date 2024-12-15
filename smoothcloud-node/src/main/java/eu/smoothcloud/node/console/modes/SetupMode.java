@@ -16,7 +16,7 @@
 package eu.smoothcloud.node.console.modes;
 
 import eu.smoothcloud.node.console.Console;
-import eu.smoothcloud.node.console.ConsoleColor;
+import eu.smoothcloud.util.console.ConsoleColor;
 
 public class SetupMode extends Mode {
 
