@@ -37,27 +37,26 @@ public class SmoothCloudNode {
 
     public SmoothCloudNode() {
         this.threads = Runtime.getRuntime().availableProcessors();
-        this.launchConfiguration = JsonSerializable.loadFromFile("cloud", "config.json", LaunchConfiguration.class);
+        this.launchConfiguration = JsonSerializable.loadFromFile(".", "config.json", LaunchConfiguration.class);
         this.threadManager = new ThreadManager(this.launchConfiguration == null || this.launchConfiguration.getThreads() <= 0 ? this.threads : this.launchConfiguration.getThreads());
         this.threadManager.startTask("console", this::startConsole);
         this.cloudChainThreadBound = new ThreadBound<>(this.threadManager, "cloudchain", new CloudChain());
         this.cloudChainThreadBound.runOnThread(CloudChain::initialize);
+        this.initializeConsole();
     }
 
     private void startConsole() {
-        System.out.println("Initializing Console");
         this.console = new Console();
-        System.out.println("Starting Console");
         this.console.start();
-        System.out.println("Console initialized");
+    }
+
+    private void initializeConsole() {
         this.print(this.console);
-        System.out.println("Printing console output");
         if (this.launchConfiguration == null) {
-            System.out.println("Launch configuration is null, switch to setup");
+            this.console.print("Switching to setup...");
             this.console.switchMode("setup");
-            System.out.println("Switched to setup");
+            this.console.print("Switched to setup.");
         }
-        System.out.println("End of line");
     }
 
     private void print(Console console) {
