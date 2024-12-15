@@ -18,11 +18,9 @@ package eu.smoothcloud.manager.httpserver;
 import eu.smoothcloud.manager.httpserver.api.DocumentationServlet;
 import eu.smoothcloud.manager.httpserver.api.get.player.ListServlet;
 import eu.smoothcloud.manager.httpserver.api.get.player.PlayerServlet;
-import lombok.Getter;
 import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jetty.server.Server;
 
-@Getter
 public class HttpServer {
 
     public static void main(String[] args) throws Exception {
