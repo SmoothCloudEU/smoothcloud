@@ -64,4 +64,24 @@ public class SmoothCloudNode {
     private void print(Console console) {
         console.print("&eInitialize Cloud");
     }
+
+    public ThreadBound<CloudChain> getCloudChainThreadBound() {
+        return cloudChainThreadBound;
+    }
+
+    public ThreadManager getThreadManager() {
+        return threadManager;
+    }
+
+    public Console getConsole() {
+        return console;
+    }
+
+    public LaunchConfiguration getLaunchConfiguration() {
+        return launchConfiguration;
+    }
+
+    public int getThreads() {
+        return threads;
+    }
 }
