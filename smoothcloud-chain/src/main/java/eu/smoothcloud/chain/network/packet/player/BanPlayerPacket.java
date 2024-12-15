@@ -3,7 +3,7 @@ package eu.smoothcloud.chain.network.packet.player;
 import eu.smoothcloud.chain.network.packet.SmoothPacket;
 import io.netty5.buffer.Buffer;
 
-public class BanPlayerPacket  extends SmoothPacket {
+public class BanPlayerPacket extends SmoothPacket {
     /**
      * Schätzt die Größe des Pakets (nur Payload).
      *

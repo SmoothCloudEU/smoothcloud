@@ -3,7 +3,7 @@ package eu.smoothcloud.chain.network.packet.server;
 import eu.smoothcloud.chain.network.packet.SmoothPacket;
 import io.netty5.buffer.Buffer;
 
-public class AllocateServerPacket  extends SmoothPacket {
+public class AllocateServerPacket extends SmoothPacket {
     /**
      * Schätzt die Größe des Pakets (nur Payload).
      *

@@ -41,7 +41,7 @@ public abstract class SmoothPacket {
      * Liest ein VarInt aus dem Buffer.
      *
      * @param byte[] Der Byte[], aus dem gelesen wird.
-     * @param int[] Der int[], für den Index.
+     * @param int[]  Der int[], für den Index.
      * @return Der dekodierte VarInt-Wert.
      */
     public static int readVarInt(byte[] buffer, int[] index) {

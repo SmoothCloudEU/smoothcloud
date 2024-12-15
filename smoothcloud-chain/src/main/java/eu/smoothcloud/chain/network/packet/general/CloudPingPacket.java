@@ -3,7 +3,7 @@ package eu.smoothcloud.chain.network.packet.general;
 import eu.smoothcloud.chain.network.packet.SmoothPacket;
 import io.netty5.buffer.Buffer;
 
-public class CloudPingPacket  extends SmoothPacket {
+public class CloudPingPacket extends SmoothPacket {
     /**
      * Schätzt die Größe des Pakets (nur Payload).
      *

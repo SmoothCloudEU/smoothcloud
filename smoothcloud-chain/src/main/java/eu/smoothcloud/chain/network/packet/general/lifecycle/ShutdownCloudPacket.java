@@ -3,7 +3,7 @@ package eu.smoothcloud.chain.network.packet.general.lifecycle;
 import eu.smoothcloud.chain.network.packet.SmoothPacket;
 import io.netty5.buffer.Buffer;
 
-public class ShutdownCloudPacket  extends SmoothPacket {
+public class ShutdownCloudPacket extends SmoothPacket {
     /**
      * Schätzt die Größe des Pakets (nur Payload).
      *
