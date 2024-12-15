@@ -14,8 +14,9 @@ public class SmoothCloudPacketDecoder extends ByteToMessageDecoder {
             return;
         }
 
-        // Buffer für das VarInt (maximal 3 Bytes)
         byte[] buf = new byte[3];
+        int[] index = new int[]{0};
+
         for (int i = 0; i < buf.length; i++) {
             if (buffer.readableBytes() <= 0) {
                 return;
@@ -23,7 +24,7 @@ public class SmoothCloudPacketDecoder extends ByteToMessageDecoder {
 
             buf[i] = buffer.readByte();
             if (buf[i] >= 0) {
-                int length = SmoothPacket.readVarInt(buf);
+                int length = SmoothPacket.readVarInt(buf, index);
                 if (length == 0) {
                     throw new CorruptedFrameException("Empty Packet!");
                 }

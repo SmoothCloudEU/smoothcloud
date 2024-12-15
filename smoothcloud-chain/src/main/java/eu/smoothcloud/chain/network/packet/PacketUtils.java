@@ -10,7 +10,7 @@ public class PacketUtils {
      * @param buffer The buffer from which the packet is read.
      * @param packet The packet to be read.
      */
-    public static SmoothPacket decode(Buffer buffer, SmoothPacket packet) {
+    public static void decode(Buffer buffer, SmoothPacket packet) {
         int packetLength = readVarInt(buffer);
         if (buffer.readableBytes() < packetLength) {
             throw new IllegalArgumentException("Packet not readable!");
@@ -22,11 +22,6 @@ public class PacketUtils {
         packet.setPacketType(packetType);
 
         packet.read(buffer);
-        return definePacket(packet);
-    }
-
-    private static SmoothPacket definePacket(SmoothPacket packet) {
-        return null;
     }
 
     /**

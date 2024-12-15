@@ -38,6 +38,36 @@ public abstract class SmoothPacket {
     }
 
     /**
+     * Liest ein VarInt aus dem Buffer.
+     *
+     * @param byte[] Der Byte[], aus dem gelesen wird.
+     * @param int[] Der int[], für den Index.
+     * @return Der dekodierte VarInt-Wert.
+     */
+    public static int readVarInt(byte[] buffer, int[] index) {
+        int value = 0;
+        int position = 0;
+
+        while (true) {
+            if (index[0] >= buffer.length) {
+                throw new IllegalArgumentException("VarInt exceeds buffer length!");
+            }
+
+            byte currentByte = buffer[index[0]++];
+            value |= (currentByte & 0x7F) << (position++ * 7);
+
+            if (position > 5) {
+                throw new IllegalArgumentException("VarInt is too large!");
+            }
+            if ((currentByte & 0x80) == 0) {
+                break;
+            }
+        }
+        return value;
+    }
+
+
+    /**
      * Schreibt ein VarInt in den Buffer.
      *
      * @param value  Der zu schreibende Wert.
@@ -143,6 +173,13 @@ public abstract class SmoothPacket {
     public void setPacketType(int packetType) {
         this.packetType = packetType;
     }
+
+    /**
+     * Schätzt die Größe des Pakets (nur Payload).
+     *
+     * @return Die geschätzte Größe des Payloads in Bytes.
+     */
+    public abstract int getEstimatedSize();
 
     /**
      * Methode zum Lesen eines Pakets.
