@@ -19,8 +19,7 @@ import eu.smoothcloud.node.console.Console;
 import eu.smoothcloud.util.console.ConsoleColor;
 
 public class SetupMode extends Mode {
-
-    private Console console;
+    private final Console console;
 
     public SetupMode(Console console) {
         this.console = console;
@@ -28,17 +27,17 @@ public class SetupMode extends Mode {
 
     @Override
     public String getName() {
-        return ConsoleColor.apply("&e" + getName() + " &7» ");
+        return ConsoleColor.apply("&eSetup &7» ");
     }
 
     @Override
     public void handleCommand(String command) {
-        switch (command) {
+        switch (command.toLowerCase()) {
             case "test" -> {
-                this.console.print(getName() + "&dThis is a test.");
+                this.console.print("&dThis is a test.");
             }
             default -> {
-                this.console.print(getName() + "[FF3333]The command " + command + " can not be executed by the console.");
+                this.console.print("[FF3333]The command [00FFFF]" + command + " [FF3333]can not be executed by the console.");
             }
         }
     }
