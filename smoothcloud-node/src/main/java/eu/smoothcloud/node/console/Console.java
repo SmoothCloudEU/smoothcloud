@@ -47,11 +47,11 @@ public class Console {
             }
 
             String input = scanner.nextLine().trim();
-            String lowerCaseInput = input.toLowerCase();
 
-            switch (lowerCaseInput) {
+            switch (input.toLowerCase()) {
                 case "exit" -> {
                     isRunning = false;
+                    this.print("Exiting console...");
                 }
                 case "pause" -> {
                     isPaused = true;
@@ -61,11 +61,12 @@ public class Console {
                     switchMode(modeName);
                 }
                 default -> {
-                    currentMode.handleCommand(lowerCaseInput);
+                    currentMode.handleCommand(input);
                 }
             }
         }
         scanner.close();
+        System.exit(0);
     }
 
     public void switchMode(String modeName) {
@@ -88,9 +89,9 @@ public class Console {
         String coloredMessage = ConsoleColor.apply(prefix + message);
         if (newLine) {
             System.out.println(coloredMessage);
-        } else {
-            System.out.print(coloredMessage);
+            return;
         }
+        System.out.print(coloredMessage);
     }
 
     public void setPaused(boolean paused) {
