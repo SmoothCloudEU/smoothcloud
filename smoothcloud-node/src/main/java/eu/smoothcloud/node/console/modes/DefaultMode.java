@@ -33,6 +33,16 @@ public class DefaultMode extends Mode {
 
     @Override
     public void handleCommand(String command) {
-
+        switch (command.toLowerCase()) {
+            case "help" -> {
+                this.console.print("[313131]--------------[00FFFF]Help[313131]--------------");
+                this.console.print("[313131]» help - Show this help menu.");
+                this.console.print("[313131]» info version - Displays the current version of the cloud.");
+                this.console.print("[313131]» info group <group> - Displays information about the group. ");
+                this.console.print("[313131]» info service <service> - Displays information about the service. ");
+                this.console.print("[313131]» ");
+                this.console.print("[313131]--------------[00FFFF]Help[313131]--------------");
+            }
+        }
     }
 }
