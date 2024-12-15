@@ -1,11 +1,18 @@
-package eu.smoothcloud.chain.network.packet.lifecycle;
+package eu.smoothcloud.chain.network.packet.server;
 
 import eu.smoothcloud.chain.network.packet.SmoothPacket;
 import io.netty5.buffer.Buffer;
 
-public class HeartbeatPacket extends SmoothPacket {
-
-    public final static int PACKET_TYPE = 100;
+public class AllocateServerPacket  extends SmoothPacket {
+    /**
+     * Schätzt die Größe des Pakets (nur Payload).
+     *
+     * @return Die geschätzte Größe des Payloads in Bytes.
+     */
+    @Override
+    public int getEstimatedSize() {
+        return 0;
+    }
 
     /**
      * Methode zum Lesen eines Pakets.
@@ -24,7 +31,7 @@ public class HeartbeatPacket extends SmoothPacket {
      */
     @Override
     public void write(Buffer buffer) {
-        buffer.writeInt(1);
+
     }
 
     @Override
@@ -41,9 +48,5 @@ public class HeartbeatPacket extends SmoothPacket {
     public String toString() {
         return null;
     }
-
-    @Override
-    public int getEstimatedSize() {
-        return 8;
-    }
 }
+
