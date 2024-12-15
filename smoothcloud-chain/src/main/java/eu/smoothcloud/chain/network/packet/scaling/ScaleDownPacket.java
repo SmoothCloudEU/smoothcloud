@@ -19,6 +19,9 @@ import eu.smoothcloud.chain.network.packet.SmoothPacket;
 import io.netty5.buffer.Buffer;
 
 public class ScaleDownPacket extends SmoothPacket {
+
+    public final static int PACKET_TYPE = 1100;
+
     /**
      * Schätzt die Größe des Pakets (nur Payload).
      *

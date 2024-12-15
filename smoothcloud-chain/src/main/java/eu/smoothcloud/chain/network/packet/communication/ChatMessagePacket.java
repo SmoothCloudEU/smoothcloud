@@ -19,6 +19,9 @@ import eu.smoothcloud.chain.network.packet.SmoothPacket;
 import io.netty5.buffer.Buffer;
 
 public class ChatMessagePacket extends SmoothPacket {
+
+    public final static int PACKET_TYPE = 400;
+
     /**
      * Schätzt die Größe des Pakets (nur Payload).
      *
