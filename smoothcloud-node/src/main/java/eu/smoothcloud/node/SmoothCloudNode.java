@@ -16,10 +16,11 @@
 package eu.smoothcloud.node;
 
 import eu.smoothcloud.chain.CloudChain;
+import eu.smoothcloud.node.configuration.JsonSerializable;
 import eu.smoothcloud.node.configuration.LaunchConfiguration;
 import eu.smoothcloud.node.console.Console;
-import eu.smoothcloud.thread.ThreadBound;
-import eu.smoothcloud.thread.ThreadManager;
+import eu.smoothcloud.util.thread.ThreadBound;
+import eu.smoothcloud.util.thread.ThreadManager;
 
 public class SmoothCloudNode {
 
@@ -27,28 +28,36 @@ public class SmoothCloudNode {
         new SmoothCloudNode();
     }
 
-    private LaunchConfiguration launchConfiguration;
+    private final int threads;
+    private final LaunchConfiguration launchConfiguration;
     private Console console;
-    private int threads = Runtime.getRuntime().availableProcessors();
 
-    private CloudChain chain;
+    private final ThreadManager threadManager;
+    private final ThreadBound<CloudChain> cloudChainThreadBound;
 
     public SmoothCloudNode() {
-        ThreadManager manager = new ThreadManager(launchConfiguration.getThreads() > 0 ? launchConfiguration.getThreads() : threads);
-        manager.startTask("Console", this::startConsole);
-        print(console);
-
-        ThreadBound<CloudChain> cloudChain = new ThreadBound<>(manager, "CloudChain", new CloudChain());
-        cloudChain.runOnThread(CloudChain::initialize);
-    }
-
-    private void startCloudChain() {
-        this.chain = new CloudChain();
+        this.threads = Runtime.getRuntime().availableProcessors();
+        this.launchConfiguration = JsonSerializable.loadFromFile("cloud", "config.json", LaunchConfiguration.class);
+        this.threadManager = new ThreadManager(this.launchConfiguration == null || this.launchConfiguration.getThreads() <= 0 ? this.threads : this.launchConfiguration.getThreads());
+        this.threadManager.startTask("console", this::startConsole);
+        this.cloudChainThreadBound = new ThreadBound<>(this.threadManager, "cloudchain", new CloudChain());
+        this.cloudChainThreadBound.runOnThread(CloudChain::initialize);
     }
 
     private void startConsole() {
+        System.out.println("Initializing Console");
         this.console = new Console();
-        console.start();
+        System.out.println("Starting Console");
+        this.console.start();
+        System.out.println("Console initialized");
+        this.print(this.console);
+        System.out.println("Printing console output");
+        if (this.launchConfiguration == null) {
+            System.out.println("Launch configuration is null, switch to setup");
+            this.console.switchMode("setup");
+            System.out.println("Switched to setup");
+        }
+        System.out.println("End of line");
     }
 
     private void print(Console console) {

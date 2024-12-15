@@ -64,7 +64,7 @@ public interface JsonSerializable {
             JSONObject jsonObject = new JSONObject(content);
             return fromJSONObject(jsonObject, clazz);
         } catch (IOException e) {
-            throw new RuntimeException("Fehler beim Lesen der Datei: " + fileName, e);
+            return null;
         }
     }
 

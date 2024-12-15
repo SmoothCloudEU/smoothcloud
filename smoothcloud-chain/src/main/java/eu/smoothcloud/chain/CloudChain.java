@@ -16,7 +16,7 @@
 package eu.smoothcloud.chain;
 
 
-import eu.smoothcloud.color.ConsoleColor;
+import eu.smoothcloud.util.console.ConsoleColor;
 
 public class CloudChain {
 

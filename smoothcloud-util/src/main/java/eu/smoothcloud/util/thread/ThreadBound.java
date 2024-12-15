@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package eu.smoothcloud.thread;
+package eu.smoothcloud.util.thread;
 
 import java.util.concurrent.Future;
 

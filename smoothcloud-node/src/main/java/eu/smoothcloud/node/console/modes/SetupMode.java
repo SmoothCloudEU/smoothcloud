@@ -28,11 +28,18 @@ public class SetupMode extends Mode {
 
     @Override
     public String getName() {
-        return "Setup";
+        return ConsoleColor.apply("&e" + getName() + " &7» ");
     }
 
     @Override
     public void handleCommand(String command) {
-        String prefix = ConsoleColor.apply("&e" + getName() + " &7- ");
+        switch (command) {
+            case "test" -> {
+                this.console.print(getName() + "&dThis is a test.");
+            }
+            default -> {
+                this.console.print(getName() + "[FF3333]The command " + command + " can not be executed by the console.");
+            }
+        }
     }
 }

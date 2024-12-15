@@ -13,9 +13,9 @@
  * limitations under the License.
  */
 
-package eu.smoothcloud.thread;
+package eu.smoothcloud.util.thread;
 
-import eu.smoothcloud.node.console.ConsoleColor;
+import eu.smoothcloud.util.console.ConsoleColor;
 
 import java.util.Map;
 import java.util.concurrent.*;

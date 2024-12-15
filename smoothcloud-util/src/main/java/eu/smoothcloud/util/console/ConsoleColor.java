@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package eu.smoothcloud.color;
+package eu.smoothcloud.util.console;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

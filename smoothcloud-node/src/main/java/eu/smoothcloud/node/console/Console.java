@@ -46,8 +46,9 @@ public class Console {
             }
 
             String input = scanner.nextLine().trim();
+            String lowerCaseInput = input.toLowerCase();
 
-            switch (input.toLowerCase()) {
+            switch (lowerCaseInput) {
                 case "exit" -> {
                     isRunning = false;
                 }
@@ -59,14 +60,14 @@ public class Console {
                     switchMode(modeName);
                 }
                 default -> {
-                    currentMode.handleCommand(input);
+                    currentMode.handleCommand(lowerCaseInput);
                 }
             }
         }
         scanner.close();
     }
 
-    private void switchMode(String modeName) {
+    public void switchMode(String modeName) {
         switch (modeName.toLowerCase()) {
             case "setup" -> currentMode = new SetupMode(this);
             case "default" -> currentMode = new DefaultMode(this);

@@ -15,15 +15,38 @@
 
 package eu.smoothcloud.node.configuration;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-@Getter
-@AllArgsConstructor
-public abstract class LaunchConfiguration implements JsonSerializable {
+public class LaunchConfiguration implements JsonSerializable {
     private String language;
     private String host;
     private int port;
     private int memory;
     private int threads;
+
+    public LaunchConfiguration(String language, String host, int port, int memory, int threads) {
+        this.language = language;
+        this.host = host;
+        this.port = port;
+        this.memory = memory;
+        this.threads = threads;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public int getMemory() {
+        return memory;
+    }
+
+    public int getThreads() {
+        return threads;
+    }
 }
