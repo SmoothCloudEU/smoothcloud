@@ -40,9 +40,11 @@ public class SmoothCloudNode {
         this.launchConfiguration = JsonSerializable.loadFromFile(".", "config.json", LaunchConfiguration.class);
         this.threadManager = new ThreadManager(this.launchConfiguration == null || this.launchConfiguration.getThreads() <= 0 ? this.threads : this.launchConfiguration.getThreads());
         this.threadManager.startTask("console", this::startConsole);
-        this.cloudChainThreadBound = new ThreadBound<>(this.threadManager, "cloudchain", new CloudChain());
+        this.cloudChainThreadBound = new ThreadBound<>(this.threadManager, "cloud-chain", new CloudChain());
         this.cloudChainThreadBound.runOnThread(CloudChain::initialize);
-        this.initializeConsole();
+        if (this.threadManager.isTaskRunning("console")) {
+            this.initializeConsole();
+        }
     }
 
     private void startConsole() {
@@ -53,9 +55,9 @@ public class SmoothCloudNode {
     private void initializeConsole() {
         this.print(this.console);
         if (this.launchConfiguration == null) {
-            this.console.print("Switching to setup...");
             this.console.switchMode("setup");
             this.console.print("Switched to setup.");
+            this.console.print("", false);
         }
     }
 

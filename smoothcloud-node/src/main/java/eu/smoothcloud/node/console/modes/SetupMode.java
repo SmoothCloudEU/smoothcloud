@@ -35,10 +35,12 @@ public class SetupMode extends Mode {
         switch (command.toLowerCase()) {
             case "test" -> {
                 this.console.print("&dThis is a test.");
+
             }
             default -> {
                 this.console.print("[FF3333]The command [00FFFF]" + command + " [FF3333]can not be executed by the console.");
             }
         }
+        this.console.print("", false);
     }
 }
