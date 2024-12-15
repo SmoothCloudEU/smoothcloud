@@ -21,6 +21,7 @@ import eu.smoothcloud.node.console.modes.SetupMode;
 import eu.smoothcloud.util.console.ConsoleColor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -54,8 +55,11 @@ public class Console {
                 this.print("", false);
                 continue;
             }
+            String[] inputParts = input.split(" ");
+            String command = inputParts[0].toLowerCase();
+            String[] args = Arrays.copyOfRange(inputParts, 1, inputParts.length);
 
-            switch (input.toLowerCase()) {
+            switch (command) {
                 case "exit" -> {
                     isRunning = false;
                     this.print("Exiting console...");
@@ -64,8 +68,8 @@ public class Console {
                     isPaused = true;
                 }
                 case "switch" -> {
-                    String modeName = input.substring(7).trim();
-                    switchMode(modeName);
+                    String mode = args[0].toLowerCase();
+                    switchMode(mode);
                 }
                 default -> {
                     currentMode.handleCommand(input);
