@@ -19,8 +19,7 @@ import eu.smoothcloud.node.console.Console;
 import eu.smoothcloud.util.console.ConsoleColor;
 
 public class DefaultMode extends Mode {
-
-    private Console console;
+    private final Console console;
 
     public DefaultMode(Console console) {
         this.console = console;
@@ -46,6 +45,8 @@ public class DefaultMode extends Mode {
             case "clear" -> {
                 this.console.clear();
             }
+            default -> this.console.print("[FF3333]The command [00FFFF]" + command + " [FF3333]can not be executed by the console.");
         }
+        this.console.print("", false);
     }
 }
