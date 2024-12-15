@@ -22,7 +22,7 @@ import java.util.concurrent.*;
 
 public class ThreadManager {
 
-    private static final String PREFIX = ConsoleColor.apply("&eThreadManager &7» ");
+    private static final String PREFIX = ConsoleColor.apply("[00FFFF-00BFFF]SmoothCloud &7» &8[&eThreadManager&8] &7");
 
     private final Map<String, Future<?>> taskMap;
     private final ExecutorService executorService;
