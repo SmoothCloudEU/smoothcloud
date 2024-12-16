@@ -36,6 +36,6 @@ public class SetupMode extends Mode {
             default -> {
             }
         }
-        this.console.print("", false);
+        this.console.prefix();
     }
 }

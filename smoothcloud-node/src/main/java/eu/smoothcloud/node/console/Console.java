@@ -20,9 +20,7 @@ import eu.smoothcloud.node.console.modes.Mode;
 import eu.smoothcloud.node.console.modes.SetupMode;
 import eu.smoothcloud.util.console.ConsoleColor;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 public class Console {
@@ -53,7 +51,7 @@ public class Console {
 
             if (input.equalsIgnoreCase("")) {
                 this.print("[FF3333]The input field can not be empty.");
-                this.print("", false);
+                this.prefix();
                 continue;
             }
             String[] inputParts = input.split(" ");
@@ -85,6 +83,12 @@ public class Console {
             case "default" -> this.currentMode = new DefaultMode(this);
             default -> this.print("Unknown mode: " + modeName);
         }
+    }
+
+    public void prefix() {
+        String prefix = this.currentMode != null ? this.currentMode.getName() : "NoMode";
+        String coloredMessage = ConsoleColor.apply("\r" + prefix);
+        System.out.print(coloredMessage);
     }
 
     public void print(String message) {

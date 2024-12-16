@@ -58,7 +58,7 @@ public class SmoothCloudNode {
             this.console.switchMode("setup");
             this.console.print("Switched to setup.");
             this.console.print("Which ip-adress do you want to use?");
-            this.console.print("", false);
+            this.console.prefix();
         }
     }
 
