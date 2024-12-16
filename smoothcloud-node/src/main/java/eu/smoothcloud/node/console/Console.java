@@ -39,11 +39,12 @@ public class Console {
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
-        while (isRunning) {
-            if (isPaused) {
+        while (this.isRunning) {
+            if (this.isPaused) {
                 String input = scanner.nextLine().trim();
                 if (input.equalsIgnoreCase("resume")) {
-                    isPaused = false;
+                    this.isPaused = false;
+                    this.print("Resumed console.");
                 }
                 continue;
             }
@@ -61,42 +62,40 @@ public class Console {
 
             switch (command) {
                 case "exit" -> {
-                    isRunning = false;
+                    this.isRunning = false;
                     this.print("Exiting console...");
                 }
                 case "pause" -> {
-                    isPaused = true;
-                }
-                case "switch" -> {
-                    String mode = args[0].toLowerCase();
-                    switchMode(mode);
+                    this.isPaused = true;
+                    this.print("Paused console.");
                 }
                 default -> {
-                    currentMode.handleCommand(input);
+                    this.currentMode.handleCommand(command, args);
                 }
             }
         }
         scanner.close();
+        this.print("Exited console.");
         System.exit(0);
     }
 
     public void switchMode(String modeName) {
         switch (modeName.toLowerCase()) {
-            case "setup" -> currentMode = new SetupMode(this);
-            case "default" -> currentMode = new DefaultMode(this);
-            default -> print("Unknown mode: " + modeName);
+            case "setup" -> this.currentMode = new SetupMode(this);
+            case "default" -> this.currentMode = new DefaultMode(this);
+            default -> this.print("Unknown mode: " + modeName);
         }
     }
 
     public void print(String message) {
-        if (currentMode == null) {
+        if (this.currentMode == null) {
             throw new IllegalStateException("Current mode is not initialized");
         }
-        print(message, true);
+        this.print(message, true);
     }
 
     public void print(String message, boolean newLine) {
-        String prefix = currentMode != null ? currentMode.getName() : "NoMode";
+        String prefix = this.currentMode != null ? this.currentMode.getName() : "NoMode";
         String coloredMessage = ConsoleColor.apply(prefix + message);
         if (newLine) {
             System.out.println(coloredMessage);
@@ -111,22 +110,22 @@ public class Console {
     }
 
     public Mode getCurrentMode() {
-        return currentMode;
+        return this.currentMode;
     }
 
     public void setPaused(boolean paused) {
-        isPaused = paused;
+        this.isPaused = paused;
     }
 
     public boolean isPaused() {
-        return isPaused;
+        return this.isPaused;
     }
 
     public void setRunning(boolean running) {
-        isRunning = running;
+        this.isRunning = running;
     }
 
     public boolean isRunning() {
-        return isRunning;
+        return this.isRunning;
     }
 }

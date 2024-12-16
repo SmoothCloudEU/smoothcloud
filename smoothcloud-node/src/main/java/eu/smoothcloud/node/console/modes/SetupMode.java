@@ -31,12 +31,8 @@ public class SetupMode extends Mode {
     }
 
     @Override
-    public void handleCommand(String command) {
-        switch (command.toLowerCase()) {
-            case "test" -> {
-                this.console.print("&dThis is a test.");
-
-            }
+    public void handleCommand(String command, String[] args) {
+        switch (command) {
             default -> {
             }
         }

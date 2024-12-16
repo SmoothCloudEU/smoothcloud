@@ -31,8 +31,8 @@ public class DefaultMode extends Mode {
     }
 
     @Override
-    public void handleCommand(String command) {
-        switch (command.toLowerCase()) {
+    public void handleCommand(String command, String[] args) {
+        switch (command) {
             case "help" -> {
                 this.console.print("[313131]--------------[00FFFF]Help[313131]--------------");
                 this.console.print("[313131]» help - Show this help menu.");

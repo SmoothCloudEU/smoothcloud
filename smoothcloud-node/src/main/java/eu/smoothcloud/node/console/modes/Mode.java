@@ -19,5 +19,5 @@ public abstract class Mode {
 
     public abstract String getName();
 
-    public abstract void handleCommand(String command);
+    public abstract void handleCommand(String command, String[] args);
 }
