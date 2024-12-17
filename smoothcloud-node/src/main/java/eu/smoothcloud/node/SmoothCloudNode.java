@@ -43,7 +43,12 @@ public class SmoothCloudNode {
         this.cloudChainThreadBound = new ThreadBound<>(this.threadManager, "cloud-chain", new CloudChain());
         this.cloudChainThreadBound.runOnThread(CloudChain::initialize);
         if (this.threadManager.isTaskRunning("console")) {
-            this.initializeConsole();
+            try {
+                Thread.sleep(1000);
+                this.initializeConsole();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
