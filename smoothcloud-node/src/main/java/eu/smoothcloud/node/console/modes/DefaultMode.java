@@ -45,7 +45,8 @@ public class DefaultMode extends Mode {
             case "clear" -> {
                 this.console.clear();
             }
-            default -> this.console.print("[FF3333]The command [00FFFF]" + command + " [FF3333]can not be executed by the console.");
+            default ->
+                    this.console.print("[FF3333]The command [00FFFF]" + command + " [FF3333]can not be executed by the console.");
         }
         this.console.prefix();
     }
