@@ -15,19 +15,23 @@
 
 package eu.smoothcloud.node.console.modes;
 
-import eu.smoothcloud.node.console.Console;
 import eu.smoothcloud.node.console.JLineConsole;
 import eu.smoothcloud.util.console.ConsoleColor;
 
-public class JLineDefaultMode extends Mode {
+public class DefaultMode extends Mode {
     private final JLineConsole console;
 
-    public JLineDefaultMode(JLineConsole console) {
+    public DefaultMode(JLineConsole console) {
         this.console = console;
     }
 
     @Override
     public String getName() {
+        return "default";
+    }
+
+    @Override
+    public String getPrefix() {
         return ConsoleColor.apply("[00FFFF-00BFFF]SmoothCloud &7» ");
     }
 
@@ -35,18 +39,18 @@ public class JLineDefaultMode extends Mode {
     public void handleCommand(String command, String[] args) {
         switch (command) {
             case "help" -> {
-                this.console.print("[313131]--------------[00FFFF]Help[313131]--------------");
-                this.console.print("[313131]» help - Show this help menu.");
-                this.console.print("[313131]» info version - Displays the current version of the cloud.");
-                this.console.print("[313131]» info group <group> - Displays information about the group. ");
-                this.console.print("[313131]» info service <service> - Displays information about the service. ");
-                this.console.print("[313131]» ");
-                this.console.print("[313131]--------------[00FFFF]Help[313131]--------------");
+                this.console.print("&7--------------&bHelp&7--------------");
+                this.console.print(" &bexit &7- &fShutdown the cloud");
+                this.console.print(" &bhelp &7- &fShow this help menu.");
+                this.console.print(" &binfo version &7- &fDisplays the current version of the cloud.");
+                this.console.print(" &binfo group <group> &7- &fDisplays information about the group. ");
+                this.console.print(" &binfo service <service> &7- &fDisplays information about the service. ");
+                this.console.print("&7--------------&bHelp&7--------------");
             }
             case "clear" -> {
                 this.console.clear();
             }
-            default -> this.console.print("[FF3333]The command [00FFFF]" + command + " [FF3333]can not be executed by the console.");
+            default -> this.console.print("[FF3333]The command &b" + command + " [FF3333]can not be executed by the console.");
         }
     }
 }
