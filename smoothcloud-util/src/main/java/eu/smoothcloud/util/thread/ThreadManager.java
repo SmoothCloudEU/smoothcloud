@@ -21,31 +21,31 @@ import java.util.concurrent.*;
 public class ThreadManager {
 
     private final Map<String, Future<?>> taskMap;
-    private final ExecutorService executorService;
+    private final ThreadPoolExecutor threadPoolExecutor;
 
     public ThreadManager(int threadPoolSize) {
         this.taskMap = new ConcurrentHashMap<>();
-        this.executorService = Executors.newFixedThreadPool(threadPoolSize);
+        this.threadPoolExecutor = new ThreadPoolExecutor(threadPoolSize, threadPoolSize, 20, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
     }
 
-    public void startTask(String taskName, Runnable task) {
+    public synchronized void startTask(String taskName, Runnable task) {
         if (taskMap.containsKey(taskName)) {
             return;
         }
-        Future<?> future = executorService.submit(task);
+        Future<?> future = threadPoolExecutor.submit(task);
         taskMap.put(taskName, future);
     }
 
-    public <T> Future<T> submitTask(String taskName, Callable<T> task) {
+    public synchronized  <T> Future<T> submitTask(String taskName, Callable<T> task) {
         if (taskMap.containsKey(taskName)) {
             return null;
         }
-        Future<T> future = executorService.submit(task);
+        Future<T> future = threadPoolExecutor.submit(task);
         taskMap.put(taskName, future);
         return future;
     }
 
-    public void stopTask(String taskName) {
+    public synchronized void stopTask(String taskName) {
         Future<?> future = taskMap.get(taskName);
         if (future != null) {
             future.cancel(true);
@@ -59,8 +59,16 @@ public class ThreadManager {
         return future != null && !future.isDone() && !future.isCancelled();
     }
 
+    public synchronized void updateMaxThreads(int maxPoolSize) {
+        threadPoolExecutor.setMaximumPoolSize(maxPoolSize);
+    }
+
+    public int getActiveThreadCount() {
+        return threadPoolExecutor.getActiveCount();
+    }
+
     public void shutdown() {
-        executorService.shutdownNow();
+        threadPoolExecutor.shutdownNow();
         taskMap.clear();
     }
 }
