@@ -22,7 +22,9 @@ import eu.smoothcloud.util.console.ConsoleColor;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 
 public class SetupMode extends Mode {
     private final JLineConsole console;

@@ -22,7 +22,8 @@ public class LaunchConfiguration implements JsonSerializable {
     private int memory;
     private int threads;
 
-    public LaunchConfiguration() {}
+    public LaunchConfiguration() {
+    }
 
     public LaunchConfiguration(String language, String host, int port, int memory, int threads) {
         this.language = language;

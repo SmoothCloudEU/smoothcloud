@@ -61,7 +61,8 @@ public class DefaultMode extends Mode {
                     case "service" -> {
 
                     }
-                    case "version" -> this.console.print("&fYour smoothcloud version is &b1.0.0/{commit-short}@development&7.");
+                    case "version" ->
+                            this.console.print("&fYour smoothcloud version is &b1.0.0/{commit-short}@development&7.");
                     default -> {
                         this.console.print("&fUsage:");
                         this.console.print("&7- &binfo version");
@@ -72,7 +73,8 @@ public class DefaultMode extends Mode {
             case "clear" -> {
                 this.console.clear();
             }
-            default -> this.console.print("[FF3333]The command &b" + command + " [FF3333]can not be executed by the console.");
+            default ->
+                    this.console.print("[FF3333]The command &b" + command + " [FF3333]can not be executed by the console.");
         }
     }
 }

@@ -15,8 +15,6 @@
 
 package eu.smoothcloud.util.thread;
 
-import eu.smoothcloud.util.console.ConsoleColor;
-
 import java.util.Map;
 import java.util.concurrent.*;
 

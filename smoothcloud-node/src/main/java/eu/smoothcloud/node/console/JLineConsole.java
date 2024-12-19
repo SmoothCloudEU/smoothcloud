@@ -15,7 +15,9 @@
 
 package eu.smoothcloud.node.console;
 
-import eu.smoothcloud.node.console.modes.*;
+import eu.smoothcloud.node.console.modes.DefaultMode;
+import eu.smoothcloud.node.console.modes.Mode;
+import eu.smoothcloud.node.console.modes.SetupMode;
 import eu.smoothcloud.util.console.ConsoleColor;
 import org.jline.reader.impl.LineReaderImpl;
 import org.jline.terminal.Terminal;
@@ -24,11 +26,9 @@ import org.jline.utils.AttributedString;
 import org.jline.utils.InfoCmp;
 
 import java.io.IOException;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
-import java.util.Map;
 
 public class JLineConsole {
     private final Terminal terminal;
