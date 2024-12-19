@@ -41,7 +41,7 @@ public class SetupMode extends Mode {
 
     @Override
     public String getPrefix() {
-        return ConsoleColor.apply("&eSetup &7» ");
+        return ConsoleColor.apply("&eSetup&7@&b%hostname &7» ");
     }
 
     @Override
@@ -94,6 +94,7 @@ public class SetupMode extends Mode {
                                 return;
                             }
                             this.configuration.setMemory(memory);
+                            System.out.print("\n");
                             this.console.print("How many more do you want to use? (maximum " + Runtime.getRuntime().availableProcessors() + ")");
                             step++;
                         } catch (NumberFormatException e) {
@@ -109,7 +110,10 @@ public class SetupMode extends Mode {
                             }
                             this.configuration.setThreads(threads);
                             this.configuration.saveToFile(".", "config.json");
+                            System.out.print("\n");
+                            this.console.print("Cloud was successfully set up.");
                             this.console.switchMode("default");
+                            this.console.sendWelcomeMessage();
                         } catch (NumberFormatException e) {
                             this.console.print("[FF3333]Your input is not a number.");
                         }

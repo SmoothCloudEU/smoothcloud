@@ -24,7 +24,11 @@ import org.jline.utils.AttributedString;
 import org.jline.utils.InfoCmp;
 
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Arrays;
+import java.util.Map;
 
 public class JLineConsole {
     private final Terminal terminal;
@@ -35,7 +39,8 @@ public class JLineConsole {
     private Mode currentMode;
 
     public JLineConsole() {
-        try (Terminal terminal = TerminalBuilder.terminal()){
+        this.sendWelcomeMessage();
+        try (Terminal terminal = TerminalBuilder.terminal()) {
             terminal.enterRawMode();
             this.reader = new LineReaderImpl(terminal);
             AttributedString coloredPrefix = new AttributedString(this.prefix());
@@ -97,8 +102,16 @@ public class JLineConsole {
     }
 
     public String prefix() {
-        String prefix = this.currentMode != null ? this.currentMode.getPrefix() : "NoMode";
-        return ConsoleColor.apply("\r" + prefix);
+        try {
+            String hostname = InetAddress.getLocalHost().getHostName();
+            String prefix = this.currentMode != null
+                    ? this.currentMode.getPrefix().replace("%hostname", hostname)
+                    : "NoMode";
+            return ConsoleColor.apply("\r" + prefix);
+
+        } catch (UnknownHostException e) {
+            return ConsoleColor.apply("\r" + this.currentMode.getPrefix().replace("%hostname", "unknown"));
+        }
     }
 
     public void print(String message) {
@@ -115,6 +128,17 @@ public class JLineConsole {
             return;
         }
         System.out.print(coloredMessage);
+    }
+
+    public void sendWelcomeMessage() {
+        System.out.print("\n");
+        System.out.print("\n");
+        System.out.println(ConsoleColor.apply("       [00FFFF-00BFFF]SmoothCloud &7- &b1.0.0&7@&bdevelopment"));
+        System.out.println(ConsoleColor.apply("       &fby &bezTxmMC&7, &bTntTastisch&7, &bSyntaxJason &fand contributors."));
+        System.out.print("\n");
+        System.out.println(ConsoleColor.apply("       &fType &bhelp &f to list all commands."));
+        System.out.print("\n");
+        System.out.print("\n");
     }
 
     public void clear() {

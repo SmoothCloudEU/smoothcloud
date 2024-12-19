@@ -32,7 +32,7 @@ public class DefaultMode extends Mode {
 
     @Override
     public String getPrefix() {
-        return ConsoleColor.apply("[00FFFF-00BFFF]SmoothCloud &7» ");
+        return ConsoleColor.apply("[00FFFF-00BFFF]SmoothCloud&7@&b%hostname &7» ");
     }
 
     @Override

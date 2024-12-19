@@ -58,7 +58,6 @@ public class SmoothCloudNode {
     }
 
     private void initializeConsole() {
-        this.console.print("&aInitialize Cloud");
         if (this.launchConfiguration == null) {
             this.console.switchMode("setup");
             this.console.print("Switched to setup.");
