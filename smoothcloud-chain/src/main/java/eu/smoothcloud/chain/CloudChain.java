@@ -15,16 +15,12 @@
 
 package eu.smoothcloud.chain;
 
-
-import eu.smoothcloud.util.console.ConsoleColor;
-
 public class CloudChain {
 
     private static int DEFAULT_PORT = 53721;
-    private static String PREFIX = "[00FFFF-00BFFF]SmoothCloud &7» &8[[A6D9F7-1E81B0]Cloud-Chain&8] &7";
 
     public CloudChain() {
-        System.out.println(ConsoleColor.apply(PREFIX + "&eInitialize Chain"));
+
     }
 
     public void initialize() {
