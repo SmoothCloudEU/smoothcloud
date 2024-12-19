@@ -18,7 +18,7 @@ package eu.smoothcloud.node;
 import eu.smoothcloud.chain.CloudChain;
 import eu.smoothcloud.node.configuration.JsonSerializable;
 import eu.smoothcloud.node.configuration.LaunchConfiguration;
-import eu.smoothcloud.node.console.Console;
+import eu.smoothcloud.node.console.JLineConsole;
 import eu.smoothcloud.util.thread.ThreadBound;
 import eu.smoothcloud.util.thread.ThreadManager;
 
@@ -30,7 +30,7 @@ public class SmoothCloudNode {
 
     private final int threads;
     private final LaunchConfiguration launchConfiguration;
-    private Console console;
+    private JLineConsole console;
 
     private final ThreadManager threadManager;
     private final ThreadBound<CloudChain> cloudChainThreadBound;
@@ -53,22 +53,18 @@ public class SmoothCloudNode {
     }
 
     private void startConsole() {
-        this.console = new Console();
+        this.console = new JLineConsole();
         this.console.start();
     }
 
     private void initializeConsole() {
-        this.print(this.console);
+        this.console.print("&aInitialize Cloud");
         if (this.launchConfiguration == null) {
             this.console.switchMode("setup");
             this.console.print("Switched to setup.");
-            this.console.print("Which ip-adress do you want to use?");
-            this.console.prefix();
+            this.console.print("Which language do you want to use? (en_US, de_DE)");
         }
-    }
-
-    private void print(Console console) {
-        console.print("&eInitialize Cloud");
+        this.console.print(this.console.prefix(), false);
     }
 
     public ThreadBound<CloudChain> getCloudChainThreadBound() {
@@ -79,7 +75,7 @@ public class SmoothCloudNode {
         return threadManager;
     }
 
-    public Console getConsole() {
+    public JLineConsole getConsole() {
         return console;
     }
 

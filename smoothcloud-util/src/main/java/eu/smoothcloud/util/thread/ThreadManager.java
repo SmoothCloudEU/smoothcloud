@@ -22,8 +22,6 @@ import java.util.concurrent.*;
 
 public class ThreadManager {
 
-    private static final String PREFIX = ConsoleColor.apply("[00FFFF-00BFFF]SmoothCloud &7» &8[&eThreadManager&8] &7");
-
     private final Map<String, Future<?>> taskMap;
     private final ExecutorService executorService;
 
@@ -34,22 +32,18 @@ public class ThreadManager {
 
     public void startTask(String taskName, Runnable task) {
         if (taskMap.containsKey(taskName)) {
-            System.out.println(ConsoleColor.apply(PREFIX + "&eTask &b" + taskName + " &eis already running."));
             return;
         }
         Future<?> future = executorService.submit(task);
         taskMap.put(taskName, future);
-        System.out.println(ConsoleColor.apply(PREFIX + "&eTask &b" + taskName + " &estarted."));
     }
 
     public <T> Future<T> submitTask(String taskName, Callable<T> task) {
         if (taskMap.containsKey(taskName)) {
-            System.out.println(ConsoleColor.apply(PREFIX + "&eTask &b" + taskName + " &eis already running."));
             return null;
         }
         Future<T> future = executorService.submit(task);
         taskMap.put(taskName, future);
-        System.out.println(ConsoleColor.apply(PREFIX + "&eTask &b" + taskName + " &estarted."));
         return future;
     }
 
@@ -58,10 +52,8 @@ public class ThreadManager {
         if (future != null) {
             future.cancel(true);
             taskMap.remove(taskName);
-            System.out.println(ConsoleColor.apply(PREFIX + "&eTask &b" + taskName + " &cstopped."));
             return;
         }
-        System.out.println(ConsoleColor.apply(PREFIX + "&eNo task found with name: &b" + taskName));
     }
 
     public boolean isTaskRunning(String taskName) {
@@ -72,13 +64,5 @@ public class ThreadManager {
     public void shutdown() {
         executorService.shutdownNow();
         taskMap.clear();
-        System.out.println(ConsoleColor.apply(PREFIX + "&cshut down."));
-    }
-
-    public void listTasks() {
-        System.out.println("Running tasks:");
-        for (String taskName : taskMap.keySet()) {
-            System.out.println(ConsoleColor.apply(PREFIX + "- " + taskName + ""));
-        }
     }
 }

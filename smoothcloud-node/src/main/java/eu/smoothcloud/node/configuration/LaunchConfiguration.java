@@ -22,11 +22,33 @@ public class LaunchConfiguration implements JsonSerializable {
     private int memory;
     private int threads;
 
+    public LaunchConfiguration() {}
+
     public LaunchConfiguration(String language, String host, int port, int memory, int threads) {
         this.language = language;
         this.host = host;
         this.port = port;
         this.memory = memory;
+        this.threads = threads;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public void setMemory(int memory) {
+        this.memory = memory;
+    }
+
+    public void setThreads(int threads) {
         this.threads = threads;
     }
 
