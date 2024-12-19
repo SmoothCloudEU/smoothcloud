@@ -36,3 +36,6 @@ build/
 .DS_Store
 /Writerside/
 dependency-reduced-pom.xml
+
+### Testing ###
+config.json
