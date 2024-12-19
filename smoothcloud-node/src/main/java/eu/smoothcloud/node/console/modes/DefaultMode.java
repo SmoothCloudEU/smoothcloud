@@ -37,15 +37,37 @@ public class DefaultMode extends Mode {
 
     @Override
     public void handleCommand(String command, String[] args) {
-        switch (command) {
+        switch (command.toLowerCase()) {
             case "help" -> {
-                this.console.print("&7--------------&bHelp&7--------------");
-                this.console.print(" &bexit &7- &fShutdown the cloud");
-                this.console.print(" &bhelp &7- &fShow this help menu.");
-                this.console.print(" &binfo version &7- &fDisplays the current version of the cloud.");
-                this.console.print(" &binfo group <group> &7- &fDisplays information about the group. ");
-                this.console.print(" &binfo service <service> &7- &fDisplays information about the service. ");
-                this.console.print("&7--------------&bHelp&7--------------");
+                this.console.print("&7-------------------------------&bHelp&7-------------------------------");
+                this.console.print(" &bexit                     &7- &fShutdown the cloud");
+                this.console.print(" &bhelp                     &7- &fShow this help menu.");
+                this.console.print(" &binfo version             &7- &fDisplays the current version of the cloud.");
+                this.console.print(" &binfo group <group>       &7- &fDisplays information about the group. ");
+                this.console.print(" &binfo service <service>   &7- &fDisplays information about the service. ");
+                this.console.print("&7-------------------------------&bHelp&7-------------------------------");
+            }
+            case "info" -> {
+                if (args.length == 0) {
+                    this.console.print("&fUsage:");
+                    this.console.print("&7- &binfo version");
+                    this.console.print("&7- &binfo group <group>");
+                    return;
+                }
+                switch (args[0].toLowerCase()) {
+                    case "group" -> {
+
+                    }
+                    case "service" -> {
+
+                    }
+                    case "version" -> this.console.print("&fYour smoothcloud version is &b1.0.0/{commit-short}@development&7.");
+                    default -> {
+                        this.console.print("&fUsage:");
+                        this.console.print("&7- &binfo version");
+                        this.console.print("&7- &binfo group <group>");
+                    }
+                }
             }
             case "clear" -> {
                 this.console.clear();
