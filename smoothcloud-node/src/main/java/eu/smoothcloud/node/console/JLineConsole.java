@@ -17,19 +17,18 @@ package eu.smoothcloud.node.console;
 
 import eu.smoothcloud.node.console.modes.*;
 import eu.smoothcloud.util.console.ConsoleColor;
-import org.jline.reader.LineReader;
-import org.jline.reader.LineReaderBuilder;
+import org.jline.reader.impl.LineReaderImpl;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
+import org.jline.utils.AttributedString;
 import org.jline.utils.InfoCmp;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class JLineConsole {
     private final Terminal terminal;
-    private final LineReader reader;
+    private final LineReaderImpl reader;
 
     private boolean isRunning;
     private boolean isPaused;
@@ -38,11 +37,13 @@ public class JLineConsole {
     public JLineConsole() {
         try (Terminal terminal = TerminalBuilder.terminal()){
             terminal.enterRawMode();
-            this.reader = LineReaderBuilder.builder().terminal(terminal).build();
+            this.reader = new LineReaderImpl(terminal);
+            AttributedString coloredPrefix = new AttributedString(this.prefix());
+            this.reader.setPrompt(coloredPrefix.toAnsi());
             this.terminal = terminal;
             this.isRunning = true;
             this.isPaused = false;
-            this.currentMode = new JLineDefaultMode(this);
+            this.currentMode = new DefaultMode(this);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -50,7 +51,8 @@ public class JLineConsole {
 
     public void start() {
         while (this.isRunning) {
-            String input = this.reader.readLine(this.prefix()).trim();
+            AttributedString coloredPrefix = new AttributedString(this.prefix());
+            String input = this.reader.readLine(coloredPrefix.toAnsi()).trim();
 
             if (this.isPaused) {
                 if (input.equalsIgnoreCase("resume")) {
@@ -62,14 +64,13 @@ public class JLineConsole {
 
             if (input.equalsIgnoreCase("")) {
                 this.print("[FF3333]The input field can not be empty.");
-                this.prefix();
                 continue;
             }
             String[] inputParts = input.split(" ");
-            String command = inputParts[0].toLowerCase();
+            String command = inputParts[0];
             String[] args = Arrays.copyOfRange(inputParts, 1, inputParts.length);
 
-            switch (command) {
+            switch (command.toLowerCase()) {
                 case "exit" -> {
                     this.isRunning = false;
                     this.print("Exiting console...");
@@ -89,14 +90,14 @@ public class JLineConsole {
 
     public void switchMode(String modeName) {
         switch (modeName.toLowerCase()) {
-            case "setup" -> this.currentMode = new JLineSetupMode(this);
-            case "default" -> this.currentMode = new JLineDefaultMode(this);
+            case "setup" -> this.currentMode = new SetupMode(this);
+            case "default" -> this.currentMode = new DefaultMode(this);
             default -> this.print("Unknown mode: " + modeName);
         }
     }
 
     public String prefix() {
-        String prefix = this.currentMode != null ? this.currentMode.getName() : "NoMode";
+        String prefix = this.currentMode != null ? this.currentMode.getPrefix() : "NoMode";
         return ConsoleColor.apply("\r" + prefix);
     }
 
@@ -108,10 +109,8 @@ public class JLineConsole {
     }
 
     public void print(String message, boolean newLine) {
-        String prefix = this.currentMode != null ? this.currentMode.getName() : "NoMode";
-        String coloredMessage = ConsoleColor.apply(prefix + message);
+        String coloredMessage = ConsoleColor.apply(this.prefix() + message);
         if (newLine) {
-
             System.out.println(coloredMessage);
             return;
         }
@@ -119,8 +118,8 @@ public class JLineConsole {
     }
 
     public void clear() {
-        this.reader.getTerminal().puts(InfoCmp.Capability.clear_screen);
-        this.reader.getTerminal().flush();
+        this.terminal.puts(InfoCmp.Capability.clear_screen);
+        this.terminal.flush();
     }
 
     public Mode getCurrentMode() {
