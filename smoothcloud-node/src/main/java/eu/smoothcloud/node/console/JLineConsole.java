@@ -40,7 +40,7 @@ public class JLineConsole {
 
     public JLineConsole() {
         this.sendWelcomeMessage();
-        try (Terminal terminal = TerminalBuilder.terminal()) {
+        try (Terminal terminal = TerminalBuilder.builder().system(true).jansi(true).dumb(false).build()) {
             terminal.enterRawMode();
             this.reader = new LineReaderImpl(terminal);
             AttributedString coloredPrefix = new AttributedString(this.prefix());
