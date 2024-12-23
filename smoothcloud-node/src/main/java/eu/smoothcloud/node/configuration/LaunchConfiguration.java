@@ -15,7 +15,7 @@
 
 package eu.smoothcloud.node.configuration;
 
-public class LaunchConfiguration implements JsonSerializable {
+public class LaunchConfiguration implements TomlSerializable {
     private String language;
     private String host;
     private int port;

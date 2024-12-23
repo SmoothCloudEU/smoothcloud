@@ -16,8 +16,9 @@
 package eu.smoothcloud.node;
 
 import eu.smoothcloud.chain.CloudChain;
-import eu.smoothcloud.node.configuration.JsonSerializable;
 import eu.smoothcloud.node.configuration.LaunchConfiguration;
+import eu.smoothcloud.node.configuration.MessageConfiguration;
+import eu.smoothcloud.node.configuration.TomlSerializable;
 import eu.smoothcloud.node.console.JLineConsole;
 import eu.smoothcloud.util.thread.ThreadBound;
 import eu.smoothcloud.util.thread.ThreadManager;
@@ -30,6 +31,8 @@ public class SmoothCloudNode {
 
     private final int threads;
     private final LaunchConfiguration launchConfiguration;
+    private MessageConfiguration messageConfiguration;
+
     private JLineConsole console;
 
     private final ThreadManager threadManager;
@@ -37,7 +40,7 @@ public class SmoothCloudNode {
 
     public SmoothCloudNode() {
         this.threads = Runtime.getRuntime().availableProcessors();
-        this.launchConfiguration = JsonSerializable.loadFromFile(".", "config.json", LaunchConfiguration.class);
+        this.launchConfiguration = TomlSerializable.loadFromFile(".", "config.toml", LaunchConfiguration.class);
         this.threadManager = new ThreadManager(this.launchConfiguration == null || this.launchConfiguration.getThreads() <= 0 ? this.threads : this.launchConfiguration.getThreads());
         this.threadManager.startTask("console", this::startConsole);
         this.cloudChainThreadBound = new ThreadBound<>(this.threadManager, "cloud-chain", new CloudChain());
@@ -53,15 +56,18 @@ public class SmoothCloudNode {
     }
 
     private void startConsole() {
-        this.console = new JLineConsole();
+        this.console = new JLineConsole(this);
         this.console.start();
     }
 
     private void initializeConsole() {
         if (this.launchConfiguration == null) {
+            this.messageConfiguration = TomlSerializable.loadFromFile(".", "storage/language/en_US.toml", MessageConfiguration.class);
             this.console.switchMode("setup");
             this.console.print("Switched to setup.");
             this.console.print("Which language do you want to use? (en_US, de_DE)");
+        } else {
+            this.messageConfiguration = TomlSerializable.loadFromFile(".", "storage/language/" + this.launchConfiguration.getLanguage() + ".toml", MessageConfiguration.class);
         }
         this.console.print(this.console.prefix(), false);
     }

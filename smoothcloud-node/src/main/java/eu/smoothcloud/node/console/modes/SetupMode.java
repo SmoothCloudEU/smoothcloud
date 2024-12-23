@@ -15,6 +15,7 @@
 
 package eu.smoothcloud.node.console.modes;
 
+import eu.smoothcloud.node.SmoothCloudNode;
 import eu.smoothcloud.node.configuration.LaunchConfiguration;
 import eu.smoothcloud.node.console.JLineConsole;
 import eu.smoothcloud.util.console.ConsoleColor;
@@ -27,11 +28,13 @@ import java.util.Enumeration;
 import java.util.List;
 
 public class SetupMode extends Mode {
+    private final SmoothCloudNode node;
     private final JLineConsole console;
     private int step = 1;
     private LaunchConfiguration configuration;
 
-    public SetupMode(JLineConsole console) {
+    public SetupMode(SmoothCloudNode node, JLineConsole console) {
+        this.node = node;
         this.console = console;
         this.configuration = new LaunchConfiguration();
     }
@@ -82,7 +85,7 @@ public class SetupMode extends Mode {
                             }
                             this.configuration.setPort(port);
                             System.out.print("\n");
-                            this.console.print("How many more do you want to use? (minimum 512)");
+                            this.console.print("How many memory do you want to use? (minimum 512)");
                             step++;
                         } catch (NumberFormatException e) {
                             this.console.print("[FF3333]Your input is not a number.");
@@ -97,7 +100,7 @@ public class SetupMode extends Mode {
                             }
                             this.configuration.setMemory(memory);
                             System.out.print("\n");
-                            this.console.print("How many more do you want to use? (maximum " + Runtime.getRuntime().availableProcessors() + ")");
+                            this.console.print("How many threads do you want to use? (maximum " + Runtime.getRuntime().availableProcessors() + ")");
                             step++;
                         } catch (NumberFormatException e) {
                             this.console.print("[FF3333]Your input is not a number.");
@@ -111,7 +114,8 @@ public class SetupMode extends Mode {
                                 return;
                             }
                             this.configuration.setThreads(threads);
-                            this.configuration.saveToFile(".", "config.json");
+                            //this.node.getThreadManager().updateMaxThreads(threads);
+                            this.configuration.saveToFile(".", "config.toml");
                             System.out.print("\n");
                             this.console.print("Cloud was successfully set up.");
                             this.console.switchMode("default");

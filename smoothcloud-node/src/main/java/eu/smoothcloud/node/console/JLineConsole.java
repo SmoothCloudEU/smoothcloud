@@ -15,6 +15,7 @@
 
 package eu.smoothcloud.node.console;
 
+import eu.smoothcloud.node.SmoothCloudNode;
 import eu.smoothcloud.node.console.modes.DefaultMode;
 import eu.smoothcloud.node.console.modes.Mode;
 import eu.smoothcloud.node.console.modes.SetupMode;
@@ -31,6 +32,7 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 
 public class JLineConsole {
+    private final SmoothCloudNode node;
     private final Terminal terminal;
     private final LineReaderImpl reader;
 
@@ -38,7 +40,8 @@ public class JLineConsole {
     private boolean isPaused;
     private Mode currentMode;
 
-    public JLineConsole() {
+    public JLineConsole(SmoothCloudNode node) {
+        this.node = node;
         this.sendWelcomeMessage();
         try (Terminal terminal = TerminalBuilder.builder().system(true).jansi(true).dumb(false).build()) {
             terminal.enterRawMode();
@@ -95,7 +98,7 @@ public class JLineConsole {
 
     public void switchMode(String modeName) {
         switch (modeName.toLowerCase()) {
-            case "setup" -> this.currentMode = new SetupMode(this);
+            case "setup" -> this.currentMode = new SetupMode(this.node, this);
             case "default" -> this.currentMode = new DefaultMode(this);
             default -> this.print("Unknown mode: " + modeName);
         }
