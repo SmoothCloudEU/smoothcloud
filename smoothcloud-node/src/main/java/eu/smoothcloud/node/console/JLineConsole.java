@@ -29,6 +29,7 @@ import org.jline.utils.InfoCmp;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public class JLineConsole {
@@ -43,7 +44,15 @@ public class JLineConsole {
     public JLineConsole(SmoothCloudNode node) {
         this.node = node;
         this.sendWelcomeMessage();
-        try (Terminal terminal = TerminalBuilder.builder().system(true).jansi(true).dumb(false).build()) {
+        try (
+                Terminal terminal = TerminalBuilder
+                        .builder()
+                        .system(true)
+                        .jansi(true)
+                        .dumb(true)
+                        .encoding(StandardCharsets.UTF_8)
+                        .build()
+        ) {
             terminal.enterRawMode();
             this.reader = new LineReaderImpl(terminal);
             AttributedString coloredPrefix = new AttributedString(this.prefix());
