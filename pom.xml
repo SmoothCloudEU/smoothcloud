@@ -32,6 +32,7 @@
         <module>smoothcloud-modules</module>
         <module>smoothcloud-manager</module>
         <module>smoothcloud-util</module>
+        <module>smoothcloud-launcher</module>
     </modules>
 
     <properties>
