@@ -15,6 +15,7 @@
 
 package eu.smoothcloud.node;
 
+import eu.smoothcloud.api.INode;
 import eu.smoothcloud.chain.CloudChain;
 import eu.smoothcloud.node.configuration.LaunchConfiguration;
 import eu.smoothcloud.node.configuration.MessageConfiguration;
@@ -23,7 +24,7 @@ import eu.smoothcloud.node.console.JLineConsole;
 import eu.smoothcloud.util.thread.ThreadBound;
 import eu.smoothcloud.util.thread.ThreadManager;
 
-public class SmoothCloudNode {
+public class SmoothCloudNode implements INode {
 
     public static void main(String[] args) {
         new SmoothCloudNode();
