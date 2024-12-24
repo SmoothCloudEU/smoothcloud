@@ -44,15 +44,12 @@ public class JLineConsole {
     public JLineConsole(SmoothCloudNode node) {
         this.node = node;
         this.sendWelcomeMessage();
-        try (
-                Terminal terminal = TerminalBuilder
-                        .builder()
+        try (Terminal terminal = TerminalBuilder.builder()
                         .system(true)
-                        .jansi(true)
-                        .dumb(true)
                         .encoding(StandardCharsets.UTF_8)
-                        .build()
-        ) {
+                        .dumb(true)
+                        .jansi(true)
+                        .build()) {
             terminal.enterRawMode();
             this.reader = new LineReaderImpl(terminal);
             AttributedString coloredPrefix = new AttributedString(this.prefix());
