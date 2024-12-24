@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package eu.smoothcloud.api.server;
+package eu.smoothcloud.api.service;
 
-public interface IProxyServer {
+public interface IProxyService {
 }
