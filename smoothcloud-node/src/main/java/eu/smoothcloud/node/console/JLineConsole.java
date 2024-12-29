@@ -15,25 +15,26 @@
 
 package eu.smoothcloud.node.console;
 
-import eu.smoothcloud.node.SmoothCloudNode;
 import eu.smoothcloud.node.console.modes.DefaultMode;
 import eu.smoothcloud.node.console.modes.Mode;
 import eu.smoothcloud.node.console.modes.SetupMode;
 import eu.smoothcloud.util.console.ConsoleColor;
+import lombok.SneakyThrows;
+import org.jline.reader.EndOfFileException;
+import org.jline.reader.LineReader;
+import org.jline.reader.LineReaderBuilder;
 import org.jline.reader.impl.LineReaderImpl;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.AttributedString;
 import org.jline.utils.InfoCmp;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public class JLineConsole {
-    private final SmoothCloudNode node;
     private final Terminal terminal;
     private final LineReaderImpl reader;
 
@@ -41,61 +42,63 @@ public class JLineConsole {
     private boolean isPaused;
     private Mode currentMode;
 
-    public JLineConsole(SmoothCloudNode node) {
-        this.node = node;
+    @SneakyThrows
+    public JLineConsole() {
         this.sendWelcomeMessage();
-        try (Terminal terminal = TerminalBuilder.builder()
-                        .system(true)
-                        .encoding(StandardCharsets.UTF_8)
-                        .dumb(true)
-                        .jansi(true)
-                        .build()) {
-            terminal.enterRawMode();
-            this.reader = new LineReaderImpl(terminal);
-            AttributedString coloredPrefix = new AttributedString(this.prefix());
-            this.reader.setPrompt(coloredPrefix.toAnsi());
-            this.terminal = terminal;
-            this.isRunning = true;
-            this.isPaused = false;
-            this.currentMode = new DefaultMode(this);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        this.terminal = TerminalBuilder.builder()
+                .system(true)
+                .encoding(StandardCharsets.UTF_8)
+                .dumb(true)
+                .jansi(true)
+                .build();
+        this.terminal.enterRawMode();
+        this.reader = (LineReaderImpl) LineReaderBuilder.builder()
+                .terminal(this.terminal)
+                .option(LineReader.Option.DISABLE_EVENT_EXPANSION, true)
+                .option(LineReader.Option.AUTO_PARAM_SLASH, false)
+                .build();
+        AttributedString coloredPrefix = new AttributedString(this.prefix());
+        this.reader.setPrompt(coloredPrefix.toAnsi());
+        this.isRunning = true;
+        this.isPaused = false;
+        this.currentMode = new DefaultMode(this);
     }
 
     public void start() {
         while (this.isRunning) {
-            AttributedString coloredPrefix = new AttributedString(this.prefix());
-            String input = this.reader.readLine(coloredPrefix.toAnsi()).trim();
+            try {
+                AttributedString coloredPrefix = new AttributedString(this.prefix());
+                String input = this.reader.readLine(coloredPrefix.toAnsi()).trim();
 
-            if (this.isPaused) {
-                if (input.equalsIgnoreCase("resume")) {
-                    this.isPaused = false;
-                    this.print("Resumed console.");
+                if (input.isEmpty()) {
+                    this.print("[FF3333]The input field can not be empty.");
+                    continue;
                 }
-                continue;
-            }
 
-            if (input.equalsIgnoreCase("")) {
-                this.print("[FF3333]The input field can not be empty.");
-                continue;
-            }
-            String[] inputParts = input.split(" ");
-            String command = inputParts[0];
-            String[] args = Arrays.copyOfRange(inputParts, 1, inputParts.length);
+                if (this.isPaused) {
+                    if (input.equalsIgnoreCase("resume")) {
+                        this.isPaused = false;
+                        this.print("Resumed console.");
+                    }
+                    continue;
+                }
+                String[] inputParts = input.split(" ");
+                String command = inputParts[0];
+                String[] args = Arrays.copyOfRange(inputParts, 1, inputParts.length);
 
-            switch (command.toLowerCase()) {
-                case "exit" -> {
-                    this.isRunning = false;
-                    this.print("Exiting console...");
+                switch (command.toLowerCase()) {
+                    case "exit" -> {
+                        this.isRunning = false;
+                        this.print("Exiting console...");
+                    }
+                    case "pause" -> {
+                        this.isPaused = true;
+                        this.print("Paused console.");
+                    }
+                    default -> this.currentMode.handleCommand(command, args);
                 }
-                case "pause" -> {
-                    this.isPaused = true;
-                    this.print("Paused console.");
-                }
-                default -> {
-                    this.currentMode.handleCommand(command, args);
-                }
+            } catch (EndOfFileException e) {
+                throw new RuntimeException(e);
             }
         }
         this.print("Exited console.");
@@ -104,7 +107,7 @@ public class JLineConsole {
 
     public void switchMode(String modeName) {
         switch (modeName.toLowerCase()) {
-            case "setup" -> this.currentMode = new SetupMode(this.node, this);
+            case "setup" -> this.currentMode = new SetupMode(this);
             case "default" -> this.currentMode = new DefaultMode(this);
             default -> this.print("Unknown mode: " + modeName);
         }
