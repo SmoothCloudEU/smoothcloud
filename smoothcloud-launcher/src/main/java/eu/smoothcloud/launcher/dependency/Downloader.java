@@ -4,29 +4,33 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Downloader {
 
     public static void download(String link, String targetDir, String targetFileName) {
         File downloadDir = new File(targetDir);
-        if(!downloadDir.exists())
+        if (!downloadDir.exists()) {
             downloadDir.mkdirs();
-        if(!downloadDir.isDirectory())
+        }
+        if (!downloadDir.isDirectory()) {
             return;
-        System.out.println("Begin Download!");
-        try (BufferedInputStream input = new BufferedInputStream(new URL(link).openStream())) {
+        }
+        System.out.println("Downloading " + targetFileName + "...");
+        try {
+            BufferedInputStream input = new BufferedInputStream(new URL(link).openStream());
             FileOutputStream fileOutputStream = new FileOutputStream(new File(targetDir, targetFileName));
-            byte dataBuffer[] = new byte[1024];
+            byte[] dataBuffer = new byte[1024];
             int bytesRead;
             int totalBytes = 0;
             while ((bytesRead = input.read(dataBuffer, 0, 1024)) != -1) {
                 fileOutputStream.write(dataBuffer, 0, bytesRead);
                 totalBytes += bytesRead;
             }
-            System.out.println("Download Finished! Bytes Written: " + totalBytes / 1024 + " KB");
+            System.out.println("Downloaded " + targetFileName + ". " + totalBytes / 1024 + " KB");
         } catch (IOException e) {
-            System.out.println("Unavailable Link");
+            throw new RuntimeException(e);
         }
     }
 }
