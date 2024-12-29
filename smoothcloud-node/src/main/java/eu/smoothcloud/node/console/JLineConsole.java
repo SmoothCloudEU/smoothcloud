@@ -44,7 +44,6 @@ public class JLineConsole {
 
     @SneakyThrows
     public JLineConsole() {
-        this.sendWelcomeMessage();
         this.terminal = TerminalBuilder.builder()
                 .system(true)
                 .encoding(StandardCharsets.UTF_8)
@@ -62,6 +61,8 @@ public class JLineConsole {
         this.isRunning = true;
         this.isPaused = false;
         this.currentMode = new DefaultMode(this);
+        this.clear();
+        this.sendWelcomeMessage();
     }
 
     public void start() {
@@ -148,7 +149,7 @@ public class JLineConsole {
         System.out.println(ConsoleColor.apply("       [00FFFF-00BFFF]SmoothCloud &7- &b1.0.0&7@&bdevelopment"));
         System.out.println(ConsoleColor.apply("       &fby &bezTxmMC&7, &bTntTastisch&7, &bSyntaxJason &fand contributors."));
         System.out.print("\n");
-        System.out.println(ConsoleColor.apply("       &fType &bhelp &f to list all commands."));
+        System.out.println(ConsoleColor.apply("       &fType &bhelp &fto list all commands."));
         System.out.print("\n");
         System.out.print("\n");
     }
