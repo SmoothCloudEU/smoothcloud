@@ -59,7 +59,7 @@ public class DefaultMode extends Mode {
 
                     }
                     case "service" -> {
-
+                        
                     }
                     case "version" ->
                             this.console.print("&fYour smoothcloud version is &b1.0.0/{commit-short}@development&7.");
