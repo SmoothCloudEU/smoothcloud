@@ -50,7 +50,7 @@ public class SmoothCloudNode implements INode {
             this.messageConfiguration = TomlSerializable.loadFromFile(".", "storage/language/en_US.toml", MessageConfiguration.class);
             this.console.switchMode("setup");
             this.console.print("Switched to setup.");
-            this.console.print("Which language do you want to use? (en_US, de_DE)");
+            this.console.print("Do you agree the Minecraft Eula? https://www.minecraft.net/en-us/eula");
         } else {
             this.messageConfiguration = TomlSerializable.loadFromFile(".", "storage/language/" + this.launchConfiguration.getLanguage() + ".toml", MessageConfiguration.class);
         }

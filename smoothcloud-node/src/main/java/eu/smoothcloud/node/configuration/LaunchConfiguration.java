@@ -16,6 +16,7 @@
 package eu.smoothcloud.node.configuration;
 
 public class LaunchConfiguration implements TomlSerializable {
+    private boolean eula;
     private String language;
     private String host;
     private int port;
@@ -25,12 +26,17 @@ public class LaunchConfiguration implements TomlSerializable {
     public LaunchConfiguration() {
     }
 
-    public LaunchConfiguration(String language, String host, int port, int memory, int threads) {
+    public LaunchConfiguration(boolean eula, String language, String host, int port, int memory, int threads) {
+        this.eula = eula;
         this.language = language;
         this.host = host;
         this.port = port;
         this.memory = memory;
         this.threads = threads;
+    }
+
+    public void setEula(boolean eula) {
+        this.eula = eula;
     }
 
     public void setLanguage(String language) {
@@ -51,6 +57,10 @@ public class LaunchConfiguration implements TomlSerializable {
 
     public void setThreads(int threads) {
         this.threads = threads;
+    }
+
+    public boolean isEula() {
+        return eula;
     }
 
     public String getLanguage() {
