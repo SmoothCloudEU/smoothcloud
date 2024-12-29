@@ -1,12 +1,11 @@
 package eu.smoothcloud.launcher.process;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.Scanner;
 
 public class ProcessStarter {
     public static void startProcess(String node) {
-        String command = "cmd.exe /c java -jar " + node;
+        String command = "java -jar " + node;
 
         try {
             ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
@@ -14,8 +13,14 @@ public class ProcessStarter {
             Process process = processBuilder.start();
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
                 String line;
-                while ((line = reader.readLine()) != null) {
-                    System.out.println(line);
+                try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()))) {
+                    while ((line = reader.readLine()) != null) {
+                        writer.write(line);
+                        writer.newLine();
+                        writer.flush();
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
             }
             int exitCode = process.waitFor();
