@@ -55,6 +55,16 @@ public class SetupMode extends Mode {
             default -> {
                 switch (step) {
                     case 1 -> {
+                        if(!command.equalsIgnoreCase("yes")) {
+                            this.console.print("You musst agree the eula.");
+                            return;
+                        }
+                        this.configuration.setEula(true);
+                        System.out.print("\n");
+                        this.console.print("Which language do you want to use? (en_US, de_DE)");
+                        step++;
+                    }
+                    case 2 -> {
                         List<String> availableLanguages = new ArrayList<>(List.of("en_US", "de_DE"));
                         if (!availableLanguages.contains(command)) {
                             this.console.print("[FF3333]We doesn't support this language.");
@@ -65,7 +75,7 @@ public class SetupMode extends Mode {
                         this.console.print("Which host do you want to use? (" + String.join(", ", this.getAllAddresses()) + ")");
                         step++;
                     }
-                    case 2 -> {
+                    case 3 -> {
                         List<String> availableHosts = new ArrayList<>(this.getAllAddresses());
                         if (!availableHosts.contains(command)) {
                             this.console.print("[FF3333]We doesn't support this host.");
@@ -76,7 +86,7 @@ public class SetupMode extends Mode {
                         this.console.print("Which port do you want to use? (1 - 65535)");
                         step++;
                     }
-                    case 3 -> {
+                    case 4 -> {
                         try {
                             int port = Integer.parseInt(command);
                             if (port < 1 || port > 65535) {
@@ -91,7 +101,7 @@ public class SetupMode extends Mode {
                             this.console.print("[FF3333]Your input is not a number.");
                         }
                     }
-                    case 4 -> {
+                    case 5 -> {
                         try {
                             int memory = Integer.parseInt(command);
                             if (memory < 512) {
@@ -106,7 +116,7 @@ public class SetupMode extends Mode {
                             this.console.print("[FF3333]Your input is not a number.");
                         }
                     }
-                    case 5 -> {
+                    case 6 -> {
                         try {
                             int threads = Integer.parseInt(command);
                             if (threads > Runtime.getRuntime().availableProcessors()) {
