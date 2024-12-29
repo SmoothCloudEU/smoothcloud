@@ -42,29 +42,28 @@
             <version>${parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>${parent.groupId}</groupId>
-            <artifactId>smoothcloud-chain</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.jline</groupId>
             <artifactId>jline</artifactId>
             <version>3.28.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty5-all</artifactId>
             <version>5.0.0.Alpha5</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.tomlj</groupId>
             <artifactId>tomlj</artifactId>
             <version>1.1.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20240303</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

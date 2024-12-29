@@ -1,6 +1,7 @@
 package eu.smoothcloud.launcher.dependency;
 
-import eu.smoothcloud.launcher.SmoothCloudLauncher;
+import com.sun.tools.javac.Main;
+import eu.smoothcloud.launcher.util.Pair;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,15 +9,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.Map;
 
-public class InternalDependencyLoader {
+public class DependencyUtil {
     private static final String MAIN_FOLDER = "dependencies/";
     private static final String JAR_EXTENSION = ".jar";
     private static final String MANIFEST_URL = "https://cdn.smoothcloud.eu/dependencies/manifest.json";
 
-
-    public static void loadInternalDependencys() {
+    public static Map<String, Pair<String, String>> getIntDepByManifest() {
+        Map<String, Pair<String, String>> manifest = new HashMap<>();
         try {
             File jarFile = new File(
                     MAIN_FOLDER + Dependency.JSON.getGroupId(),
@@ -34,7 +36,7 @@ public class InternalDependencyLoader {
                 }
             }
 
-            try (URLClassLoader classLoader = new URLClassLoader(new URL[] { jarUrl }, SmoothCloudLauncher.class.getClassLoader())) {
+            try (URLClassLoader classLoader = new URLClassLoader(new URL[] { jarUrl }, Main.class.getClassLoader())) {
                 Class<?> jsonArrayClass = classLoader.loadClass("org.json.JSONArray");
                 Class<?> jsonObjectClass = classLoader.loadClass("org.json.JSONObject");
 
@@ -50,29 +52,13 @@ public class InternalDependencyLoader {
                             "artifactId");
                     String version = (String) jsonObjectClass.getMethod("getString", String.class).invoke(jsonObject,
                             "version");
-                    String url = "https://cdn.smoothcloud.eu/dependencies/" + artifactId + "-" + version + ".jar";
-
-                    String inDepDir = MAIN_FOLDER + groupId;
-                    String inDepFileName = artifactId + "-" + version + JAR_EXTENSION;
-                    if(new File(inDepDir, inDepFileName).exists()) {
-                        System.out.println("Skipped " + inDepFileName);
-                        continue;
-                    }
-                    File tempFile = new File(inDepDir);
-                    if(tempFile.exists()) {
-                        for (File file : Objects.requireNonNull(tempFile.listFiles())) {
-                            file.delete();
-                        }
-                    }
-                    Downloader.download(
-                            url,
-                            inDepDir,
-                            inDepFileName
-                    );
+                    manifest.put(groupId, new Pair<>(artifactId, version));
                 }
+                return manifest;
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
+        return null;
     }
 }

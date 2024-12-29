@@ -16,13 +16,10 @@
 package eu.smoothcloud.node;
 
 import eu.smoothcloud.api.INode;
-import eu.smoothcloud.chain.CloudChain;
 import eu.smoothcloud.node.configuration.LaunchConfiguration;
 import eu.smoothcloud.node.configuration.MessageConfiguration;
 import eu.smoothcloud.node.configuration.TomlSerializable;
 import eu.smoothcloud.node.console.JLineConsole;
-import eu.smoothcloud.util.thread.ThreadBound;
-import eu.smoothcloud.util.thread.ThreadManager;
 
 public class SmoothCloudNode implements INode {
 
@@ -36,28 +33,15 @@ public class SmoothCloudNode implements INode {
 
     private JLineConsole console;
 
-    private final ThreadManager threadManager;
-    private final ThreadBound<CloudChain> cloudChainThreadBound;
-
     public SmoothCloudNode() {
         this.threads = Runtime.getRuntime().availableProcessors();
         this.launchConfiguration = TomlSerializable.loadFromFile(".", "config.toml", LaunchConfiguration.class);
-        this.threadManager = new ThreadManager(this.launchConfiguration == null || this.launchConfiguration.getThreads() <= 0 ? this.threads : this.launchConfiguration.getThreads());
-        this.threadManager.startTask("console", this::startConsole);
-        this.cloudChainThreadBound = new ThreadBound<>(this.threadManager, "cloud-chain", new CloudChain());
-        this.cloudChainThreadBound.runOnThread(CloudChain::initialize);
-        if (this.threadManager.isTaskRunning("console")) {
-            try {
-                Thread.sleep(1000);
-                this.initializeConsole();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        this.startConsole();
     }
 
     private void startConsole() {
         this.console = new JLineConsole(this);
+        this.initializeConsole();
         this.console.start();
     }
 
@@ -71,14 +55,6 @@ public class SmoothCloudNode implements INode {
             this.messageConfiguration = TomlSerializable.loadFromFile(".", "storage/language/" + this.launchConfiguration.getLanguage() + ".toml", MessageConfiguration.class);
         }
         this.console.print(this.console.prefix(), false);
-    }
-
-    public ThreadBound<CloudChain> getCloudChainThreadBound() {
-        return cloudChainThreadBound;
-    }
-
-    public ThreadManager getThreadManager() {
-        return threadManager;
     }
 
     public JLineConsole getConsole() {
