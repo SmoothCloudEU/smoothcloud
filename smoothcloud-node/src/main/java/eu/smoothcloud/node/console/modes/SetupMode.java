@@ -127,6 +127,7 @@ public class SetupMode extends Mode {
                             System.out.print("\n");
                             this.console.print("Cloud was successfully set up.");
                             this.console.switchMode("default");
+                            this.console.clear();
                             this.console.sendWelcomeMessage();
                         } catch (NumberFormatException e) {
                             this.console.print("[FF3333]Your input is not a number.");
