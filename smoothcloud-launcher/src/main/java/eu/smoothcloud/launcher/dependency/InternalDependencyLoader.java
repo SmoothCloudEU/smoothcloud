@@ -1,6 +1,6 @@
 package eu.smoothcloud.launcher.dependency;
 
-import com.sun.tools.javac.Main;
+import eu.smoothcloud.launcher.SmoothCloudLauncher;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,18 +8,19 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Objects;
 
-public class InternalDepLoader {
-    private static final String MAIN_FOLDER = "Dependencys/";
-    private static final String JAR_EXT = ".jar";
+public class InternalDependencyLoader {
+    private static final String MAIN_FOLDER = "dependencies/";
+    private static final String JAR_EXTENSION = ".jar";
     private static final String MANIFEST_URL = "https://cdn.smoothcloud.eu/dependencies/manifest.json";
 
 
     public static void loadInternalDependencys() {
         try {
             File jarFile = new File(
-                    MAIN_FOLDER + Dependency.JSON.getGroupId() + "." + Dependency.JSON.getArtifactId(),
-                    Dependency.JSON.getVersion() + JAR_EXT
+                    MAIN_FOLDER + Dependency.JSON.getGroupId(),
+                    Dependency.JSON.getArtifactId() + "-" + Dependency.JSON.getVersion() + JAR_EXTENSION
             );
             URL jarUrl = jarFile.toURI().toURL();
 
@@ -33,7 +34,7 @@ public class InternalDepLoader {
                 }
             }
 
-            try (URLClassLoader classLoader = new URLClassLoader(new URL[] { jarUrl }, Main.class.getClassLoader())) {
+            try (URLClassLoader classLoader = new URLClassLoader(new URL[] { jarUrl }, SmoothCloudLauncher.class.getClassLoader())) {
                 Class<?> jsonArrayClass = classLoader.loadClass("org.json.JSONArray");
                 Class<?> jsonObjectClass = classLoader.loadClass("org.json.JSONObject");
 
@@ -43,21 +44,23 @@ public class InternalDepLoader {
                 for (int i = 0; i < length; i++) {
                     Object jsonObject = jsonArrayClass.getMethod("get", int.class).invoke(jsonArray, i);
 
-                    String name = (String) jsonObjectClass.getMethod("getString", String.class).invoke(jsonObject,
-                            "name");
+                    String groupId = (String) jsonObjectClass.getMethod("getString", String.class).invoke(jsonObject,
+                            "groupId");
+                    String artifactId = (String) jsonObjectClass.getMethod("getString", String.class).invoke(jsonObject,
+                            "artifactId");
                     String version = (String) jsonObjectClass.getMethod("getString", String.class).invoke(jsonObject,
                             "version");
-                    String url = "https://cdn.smoothcloud.eu/dependencies/" + name + "-" + version + ".jar";
+                    String url = "https://cdn.smoothcloud.eu/dependencies/" + artifactId + "-" + version + ".jar";
 
-                    String inDepDir = MAIN_FOLDER + name;
-                    String inDepFileName = name + "-" + version + JAR_EXT;
+                    String inDepDir = MAIN_FOLDER + groupId;
+                    String inDepFileName = artifactId + "-" + version + JAR_EXTENSION;
                     if(new File(inDepDir, inDepFileName).exists()) {
-                        System.out.println("Skip Dependency " + inDepFileName);
+                        System.out.println("Skipped " + inDepFileName);
                         continue;
                     }
                     File tempFile = new File(inDepDir);
                     if(tempFile.exists()) {
-                        for (File file : tempFile.listFiles()) {
+                        for (File file : Objects.requireNonNull(tempFile.listFiles())) {
                             file.delete();
                         }
                     }
@@ -69,7 +72,7 @@ public class InternalDepLoader {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

@@ -3,23 +3,22 @@ package eu.smoothcloud.launcher.dependency;
 import java.io.File;
 
 public class DependencyLoader {
-    private static final String MAIN_FOLDER = "Dependencys/";
-    private static final String JAR_EXT = ".jar";
+    private static final String MAIN_FOLDER = "dependencies/";
+    private static final String JAR_EXTENSION = ".jar";
 
     public static void loadExternalDependencys() {
-        for (Dependency dep : Dependency.values()) {
-            String link = MavenBuilder.buildMavenLink(dep);
-            String depDir = MAIN_FOLDER + dep.getGroupId() + "." + dep.getArtifactId();
-            String depFileName = dep.getVersion() + JAR_EXT;
-            System.out.println("Try to Download " + depFileName);
-            if(new File(depDir, depFileName).exists()) {
-                System.out.println("Skip Dependency " + depFileName);
+        for (Dependency dependency : Dependency.values()) {
+            String link = MavenCentral.buildLink(dependency);
+            String dependencyDir = MAIN_FOLDER + dependency.getGroupId();
+            String dependencyName = dependency.getArtifactId() + "-" + dependency.getVersion() + JAR_EXTENSION;
+            if(new File(dependencyDir, dependencyName).exists()) {
+                System.out.println("Skipped " + dependencyName);
                 continue;
             }
             Downloader.download(
                     link,
-                    depDir,
-                    depFileName
+                    dependencyDir,
+                    dependencyName
             );
         }
     }

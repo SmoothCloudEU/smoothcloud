@@ -1,7 +1,8 @@
 package eu.smoothcloud.launcher.dependency;
 
-public class MavenBuilder {
-    public static String buildMavenLink(Dependency dependency) {
+public class MavenCentral {
+
+    public static String buildLink(Dependency dependency) {
         return String.format(
                 Repository.MAVEN.getLink(),
                 dependency.getGroupId().replace(".", "/"),
