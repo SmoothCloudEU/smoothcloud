@@ -39,3 +39,5 @@ dependency-reduced-pom.xml
 
 ### Testing ###
 config.json
+config.toml
+Dependencys/
