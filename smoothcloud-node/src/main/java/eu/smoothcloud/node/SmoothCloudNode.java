@@ -40,7 +40,7 @@ public class SmoothCloudNode implements INode {
     }
 
     private void startConsole() {
-        this.console = new JLineConsole(this);
+        this.console = new JLineConsole();
         this.initializeConsole();
         this.console.start();
     }

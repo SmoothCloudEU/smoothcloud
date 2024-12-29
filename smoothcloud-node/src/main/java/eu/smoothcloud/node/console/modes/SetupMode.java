@@ -28,13 +28,11 @@ import java.util.Enumeration;
 import java.util.List;
 
 public class SetupMode extends Mode {
-    private final SmoothCloudNode node;
     private final JLineConsole console;
-    private int step = 1;
     private LaunchConfiguration configuration;
+    private int step = 1;
 
-    public SetupMode(SmoothCloudNode node, JLineConsole console) {
-        this.node = node;
+    public SetupMode(JLineConsole console) {
         this.console = console;
         this.configuration = new LaunchConfiguration();
     }
