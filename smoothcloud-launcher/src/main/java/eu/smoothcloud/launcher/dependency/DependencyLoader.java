@@ -18,10 +18,11 @@ public class DependencyLoader {
             String link = buildLink(dependency);
             String dependencyDir = directory + dependency.getGroupId();
             String dependencyName = dependency.getArtifactId() + "-" + dependency.getVersion() + ".jar";
+            Path path = Path.of(directory + dependency.getGroupId() + "/" + dependency.getArtifactId() + "-" + dependency.getVersion() + ".jar");
             if(new File(dependencyDir, dependencyName).exists()) {
                 System.out.println("Skipped " + dependencyName);
                 try {
-                    SmoothCloudLauncher.getClassLoader().addURL(Path.of(directory + dependency.getGroupId() + "/" + dependency.getArtifactId() + "-" + dependency.getVersion() + ".jar").toUri().toURL());
+                    SmoothCloudLauncher.getClassLoader().addURL(path.toUri().toURL());
                 } catch (MalformedURLException e) {
                     throw new RuntimeException(e);
                 }
@@ -33,7 +34,7 @@ public class DependencyLoader {
                     dependencyName
             );
             try {
-                SmoothCloudLauncher.getClassLoader().addURL(Path.of(directory + dependency.getGroupId() + "/" + dependency.getArtifactId() + "-" + dependency.getVersion() + ".jar").toUri().toURL());
+                SmoothCloudLauncher.getClassLoader().addURL(path.toUri().toURL());
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }
