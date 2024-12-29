@@ -11,6 +11,7 @@ import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 
 public class JarLoader {
+
     public static void loadJar(Path jarPath, String[] args) {
         try (SmoothCloudClassLoader classLoader = SmoothCloudLauncher.getClassLoader()) {
             classLoader.addURL(jarPath.toUri().toURL());
