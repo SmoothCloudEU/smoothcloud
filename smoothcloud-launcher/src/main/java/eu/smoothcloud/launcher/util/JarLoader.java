@@ -1,16 +1,18 @@
 package eu.smoothcloud.launcher.util;
 
 import eu.smoothcloud.launcher.SmoothCloudClassLoader;
+import eu.smoothcloud.launcher.SmoothCloudLauncher;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 
 public class JarLoader {
     public static void loadJar(Path jarPath, String[] args) {
-        try (SmoothCloudClassLoader classLoader = new SmoothCloudClassLoader()) {
+        try (SmoothCloudClassLoader classLoader = SmoothCloudLauncher.getClassLoader()) {
             classLoader.addURL(jarPath.toUri().toURL());
             System.setProperty("startup", String.valueOf(System.currentTimeMillis()));
             Thread.currentThread().setContextClassLoader(classLoader);
