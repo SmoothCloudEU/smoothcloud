@@ -57,7 +57,7 @@ public class SetupMode extends Mode {
                             return;
                         }
                         this.configuration.setEula(true);
-                        System.out.print("\n");
+                        this.console.print("&aEula was successfully agreed.");
                         this.console.print("Which language do you want to use? (en_US, de_DE)");
                         step++;
                     }
@@ -68,7 +68,7 @@ public class SetupMode extends Mode {
                             return;
                         }
                         this.configuration.setLanguage(command);
-                        System.out.print("\n");
+                        this.console.print("&aLanguage [99FF99]" + command + " &awas successfully selected.");
                         this.console.print("Which host do you want to use? (" + String.join(", ", this.getAllAddresses()) + ")");
                         step++;
                     }
@@ -79,7 +79,7 @@ public class SetupMode extends Mode {
                             return;
                         }
                         this.configuration.setHost(command);
-                        System.out.print("\n");
+                        this.console.print("&aHost [99FF99]" + command + " &awas successfully selected.");
                         this.console.print("Which port do you want to use? (1 - 65535)");
                         step++;
                     }
@@ -91,7 +91,7 @@ public class SetupMode extends Mode {
                                 return;
                             }
                             this.configuration.setPort(port);
-                            System.out.print("\n");
+                            this.console.print("&aPort [99FF99]" + command + " &awas successfully selected.");
                             this.console.print("How many memory do you want to use? (minimum 512)");
                             step++;
                         } catch (NumberFormatException e) {
@@ -106,7 +106,7 @@ public class SetupMode extends Mode {
                                 return;
                             }
                             this.configuration.setMemory(memory);
-                            System.out.print("\n");
+                            this.console.print("[99FF99]" + command + " &aMB memory are successfully selected.");
                             this.console.print("How many threads do you want to use? (maximum " + Runtime.getRuntime().availableProcessors() + ")");
                             step++;
                         } catch (NumberFormatException e) {
@@ -122,7 +122,7 @@ public class SetupMode extends Mode {
                             }
                             this.configuration.setThreads(threads);
                             this.configuration.saveToFile(".", "config.toml");
-                            System.out.print("\n");
+                            this.console.print("[99FF99]" + command + " &athreads are successfully selected.");
                             this.console.print("Cloud was successfully set up.");
                             this.console.switchMode("default");
                             this.console.clear();
