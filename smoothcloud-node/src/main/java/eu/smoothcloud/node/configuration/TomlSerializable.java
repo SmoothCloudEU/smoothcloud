@@ -2,6 +2,7 @@ package eu.smoothcloud.node.configuration;
 
 import org.tomlj.Toml;
 import org.tomlj.TomlTable;
+import org.tomlj.TomlArray;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -25,6 +26,16 @@ public interface TomlSerializable {
                 tomlBuilder.append(field.getName()).append(" = ");
                 if (value instanceof String) {
                     tomlBuilder.append("\"").append(value).append("\"");
+                } else if (value instanceof String[]) {
+                    tomlBuilder.append("[");
+                    String[] array = (String[]) value;
+                    for (int i = 0; i < array.length; i++) {
+                        tomlBuilder.append("\"").append(array[i]).append("\"");
+                        if (i < array.length - 1) {
+                            tomlBuilder.append(", ");
+                        }
+                    }
+                    tomlBuilder.append("]");
                 } else {
                     tomlBuilder.append(value);
                 }
@@ -71,6 +82,15 @@ public interface TomlSerializable {
                     Object value = toml.get(field.getName());
                     if (field.getType().equals(int.class) && value instanceof Long) {
                         field.set(instance, ((Long) value).intValue());
+                        continue;
+                    }
+                    if (field.getType().equals(String[].class) && value instanceof TomlArray) {
+                        TomlArray array = (TomlArray) value;
+                        String[] stringArray = new String[array.size()];
+                        for (int i = 0; i < array.size(); i++) {
+                            stringArray[i] = array.getString(i);
+                        }
+                        field.set(instance, stringArray);
                         continue;
                     }
                     field.set(instance, value);
