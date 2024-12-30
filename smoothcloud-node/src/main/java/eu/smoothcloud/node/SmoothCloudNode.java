@@ -18,6 +18,7 @@ package eu.smoothcloud.node;
 import eu.smoothcloud.api.INode;
 import eu.smoothcloud.node.configuration.*;
 import eu.smoothcloud.node.console.JLineConsole;
+import eu.smoothcloud.node.template.TemplateManager;
 import eu.smoothcloud.util.converter.CloudList;
 import lombok.Getter;
 
@@ -33,6 +34,7 @@ public class SmoothCloudNode implements INode {
     private TemplatesConfiguration templatesConfiguration;
     private MessageConfiguration messageConfiguration;
     private JLineConsole console;
+    private TemplateManager templateManager;
 
     public SmoothCloudNode() {
         this.threads = 2;
@@ -42,11 +44,12 @@ public class SmoothCloudNode implements INode {
             this.templatesConfiguration = new TemplatesConfiguration(new CloudList<>(String.class).convertToArray());
             this.templatesConfiguration.saveToFile("storage", "templates.toml");
         }
+        this.templateManager = new TemplateManager(this.templatesConfiguration, this.console);
         this.startConsole();
     }
 
     private void startConsole() {
-        this.console = new JLineConsole();
+        this.console = new JLineConsole(this.templateManager);
         this.initializeConsole();
         this.console.start();
     }
