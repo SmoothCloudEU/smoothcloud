@@ -122,7 +122,6 @@ public class SetupMode extends Mode {
                                 return;
                             }
                             this.configuration.setThreads(threads);
-                            //this.node.getThreadManager().updateMaxThreads(threads);
                             this.configuration.saveToFile(".", "config.toml");
                             System.out.print("\n");
                             this.console.print("Cloud was successfully set up.");
