@@ -11,7 +11,6 @@ public class SmoothCloudLauncher {
     private static JarLoader jarLoader;
 
     public static void main(String[] args) {
-        // TODO: Add check if launcher is up-to-date and if not -> update
         classLoader = new SmoothCloudClassLoader();
         dependencyLoader = new DependencyLoader("dependencies");
         dependencyLoader.loadDependencys();
