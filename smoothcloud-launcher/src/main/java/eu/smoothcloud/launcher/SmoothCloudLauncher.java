@@ -1,31 +1,38 @@
 package eu.smoothcloud.launcher;
 
-import eu.smoothcloud.launcher.dependency.DependencyLoader;
-import eu.smoothcloud.launcher.util.JarLoader;
+import eu.smoothcloud.launcher.dependency.DependencyHandler;
+import eu.smoothcloud.launcher.loader.JarLoader;
+import eu.smoothcloud.launcher.loader.JsonLoader;
 
-import java.nio.file.Path;
+import java.io.IOException;
 
 public class SmoothCloudLauncher {
     private static SmoothCloudClassLoader classLoader;
-    private static DependencyLoader dependencyLoader;
+    private static DependencyHandler dependencyHandler;
+    private static JsonLoader jsonLoader;
     private static JarLoader jarLoader;
 
-    public static void main(String[] args) {
-        // TODO: Add check if launcher is up-to-date and if not -> update
+    public static void main(String[] args) throws IOException {
         classLoader = new SmoothCloudClassLoader();
-        dependencyLoader = new DependencyLoader("dependencies");
-        dependencyLoader.loadDependencys();
-        System.out.println("Start Node Module!");
+        dependencyHandler = new DependencyHandler();
+        jsonLoader = new JsonLoader("https://github.com/SmoothCloudEU/smoothcloud-manifest/raw/refs/heads/master/dependencyLoader.json");
+        jsonLoader.processJsonAndDownload();
+        System.out.println("Starting smoothcloud-node...");
         jarLoader = new JarLoader();
-        jarLoader.loadJar(Path.of("dependencies/eu.smoothcloud/smoothcloud-node-1.0.0-dev.jar"), args);
+        System.out.println("SMOOTHCLOUD-NODE: " + dependencyHandler.getDependencyPaths().get("smoothcloud-node"));
+        jarLoader.loadJar(dependencyHandler.getDependencyPaths().get("smoothcloud-node"), args);
     }
 
     public static SmoothCloudClassLoader getClassLoader() {
         return classLoader;
     }
 
-    public static DependencyLoader getDependencyLoader() {
-        return dependencyLoader;
+    public static DependencyHandler getDependencyHandler() {
+        return dependencyHandler;
+    }
+
+    public static JsonLoader getJsonLoader() {
+        return jsonLoader;
     }
 
     public static JarLoader getJarLoader() {
