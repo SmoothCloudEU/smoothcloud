@@ -8,16 +8,27 @@ import java.nio.file.Path;
 public class SmoothCloudLauncher {
     private static SmoothCloudClassLoader classLoader;
     private static DependencyLoader dependencyLoader;
+    private static JarLoader jarLoader;
 
     public static void main(String[] args) {
+        // TODO: Add check if launcher is up-to-date and if not -> update
         classLoader = new SmoothCloudClassLoader();
         dependencyLoader = new DependencyLoader("dependencies");
         dependencyLoader.loadDependencys();
         System.out.println("Start Node Module!");
-        JarLoader.loadJar(Path.of("dependencies/eu.smoothcloud/smoothcloud-node-1.0.0-dev.jar"), args);
+        jarLoader = new JarLoader();
+        jarLoader.loadJar(Path.of("dependencies/eu.smoothcloud/smoothcloud-node-1.0.0-dev.jar"), args);
     }
 
     public static SmoothCloudClassLoader getClassLoader() {
         return classLoader;
+    }
+
+    public static DependencyLoader getDependencyLoader() {
+        return dependencyLoader;
+    }
+
+    public static JarLoader getJarLoader() {
+        return jarLoader;
     }
 }
