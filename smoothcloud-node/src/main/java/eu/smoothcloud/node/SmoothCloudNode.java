@@ -18,8 +18,11 @@ package eu.smoothcloud.node;
 import eu.smoothcloud.api.INode;
 import eu.smoothcloud.node.configuration.*;
 import eu.smoothcloud.node.console.JLineConsole;
+import eu.smoothcloud.util.converter.CloudList;
 import lombok.Getter;
-import org.json.JSONArray;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 public class SmoothCloudNode implements INode {
@@ -37,10 +40,10 @@ public class SmoothCloudNode implements INode {
     public SmoothCloudNode() {
         this.threads = Runtime.getRuntime().availableProcessors();
         this.launchConfiguration = TomlSerializable.loadFromFile(".", "config.toml", LaunchConfiguration.class);
-        this.templatesConfiguration = JsonSerializable.loadFromFile("storage", "templates.json", TemplatesConfiguration.class);
+        this.templatesConfiguration = TomlSerializable.loadFromFile("storage", "templates.toml", TemplatesConfiguration.class);
         if (this.templatesConfiguration == null) {
-            this.templatesConfiguration = new TemplatesConfiguration(new JSONArray());
-            this.templatesConfiguration.saveToFile("storage", "templates.json");
+            this.templatesConfiguration = new TemplatesConfiguration(new CloudList<>(String.class).convertToArray());
+            this.templatesConfiguration.saveToFile("storage", "templates.toml");
         }
         this.startConsole();
     }
@@ -56,7 +59,7 @@ public class SmoothCloudNode implements INode {
             this.messageConfiguration = TomlSerializable.loadFromFile(".", "storage/language/en_US.toml", MessageConfiguration.class);
             this.console.switchMode("setup");
             this.console.print("Switched to setup.");
-            this.console.print("Do you agree the Minecraft Eula? https://www.minecraft.net/en-us/eula");
+            this.console.print("Do you agree to the Minecraft EULA? https://www.minecraft.net/en-us/eula (yes or no)");
         } else {
             this.messageConfiguration = TomlSerializable.loadFromFile(".", "storage/language/" + this.launchConfiguration.getLanguage() + ".toml", MessageConfiguration.class);
         }
