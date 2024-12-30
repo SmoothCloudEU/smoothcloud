@@ -83,6 +83,7 @@ public class TemplateManager {
             );
             this.templates.remove(templateName, existingTemp);
             this.templates.put(newTemplateName, newTemp);
+            saveTemplates();
             return 0;
         } catch (IOException e) {
             return 4;
@@ -95,6 +96,7 @@ public class TemplateManager {
         this.templates.remove(templateName, path);
         File temp_dir = new File(path.toUri());
         temp_dir.delete();
+        saveTemplates();
         return true;
     }
 
