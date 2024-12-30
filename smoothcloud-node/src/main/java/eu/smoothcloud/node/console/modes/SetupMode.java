@@ -28,7 +28,7 @@ import java.util.List;
 
 public class SetupMode extends Mode {
     private final JLineConsole console;
-    private LaunchConfiguration configuration;
+    private final LaunchConfiguration configuration;
     private int step = 1;
 
     public SetupMode(JLineConsole console) {
