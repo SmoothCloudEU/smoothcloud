@@ -21,9 +21,6 @@ import eu.smoothcloud.node.console.JLineConsole;
 import eu.smoothcloud.util.converter.CloudList;
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 public class SmoothCloudNode implements INode {
 
@@ -31,14 +28,14 @@ public class SmoothCloudNode implements INode {
         new SmoothCloudNode();
     }
 
-    private final int threads;
+    private int threads;
     private final LaunchConfiguration launchConfiguration;
     private TemplatesConfiguration templatesConfiguration;
     private MessageConfiguration messageConfiguration;
     private JLineConsole console;
 
     public SmoothCloudNode() {
-        this.threads = Runtime.getRuntime().availableProcessors();
+        this.threads = 2;
         this.launchConfiguration = TomlSerializable.loadFromFile(".", "config.toml", LaunchConfiguration.class);
         this.templatesConfiguration = TomlSerializable.loadFromFile("storage", "templates.toml", TemplatesConfiguration.class);
         if (this.templatesConfiguration == null) {
@@ -61,6 +58,7 @@ public class SmoothCloudNode implements INode {
             this.console.print("Switched to setup.");
             this.console.print("Do you agree to the Minecraft EULA? https://www.minecraft.net/en-us/eula (yes or no)");
         } else {
+            this.threads = this.launchConfiguration.getThreads();
             this.messageConfiguration = TomlSerializable.loadFromFile(".", "storage/language/" + this.launchConfiguration.getLanguage() + ".toml", MessageConfiguration.class);
         }
         this.console.print(this.console.prefix(), false);
