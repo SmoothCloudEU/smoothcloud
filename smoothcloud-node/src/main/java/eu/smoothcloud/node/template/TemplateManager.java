@@ -3,9 +3,12 @@ package eu.smoothcloud.node.template;
 import eu.smoothcloud.node.configuration.TemplatesConfiguration;
 import eu.smoothcloud.node.console.JLineConsole;
 import eu.smoothcloud.util.charset.CharsetUtil;
+import eu.smoothcloud.util.converter.CloudList;
+import lombok.Getter;
 
 import java.io.File;
-import java.nio.file.Path;
+import java.io.IOException;
+import java.nio.file.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,23 +18,37 @@ public class TemplateManager {
     private final String[] DEFAULT_TEMPLATES = {
       "every/", "every_lobby/", "every_proxy/", "every_server/"
     };
+    @Getter
     private Map<String, Path> templates;
+    private TemplatesConfiguration configuration;
 
 
     public TemplateManager(TemplatesConfiguration configuration, JLineConsole console) {
         this.console = console;
+        this.configuration = configuration;
         this.templates = new HashMap<>();
         for (String template : configuration.getTemplates()) {
             this.templates.put(template, Path.of(DEFAULT_PATH + template));
         }
         File temp_dir = new File(DEFAULT_PATH);
-        if(!temp_dir.exists() || !temp_dir.isDirectory())
+        if(!temp_dir.exists() || !temp_dir.isDirectory()) {
             temp_dir.mkdirs();
+            temp_dir.setWritable(true, false);
+        }
         for (String def_temp : DEFAULT_TEMPLATES) {
             File def_temp_dir = new File(DEFAULT_PATH + def_temp);
-            if(!def_temp_dir.exists())
+            if(!def_temp_dir.exists()) {
                 def_temp_dir.mkdirs();
+                def_temp_dir.setWritable(true, false);
+            }
         }
+    }
+
+    private void saveTemplates() {
+        CloudList<String> templates = new CloudList<>(String.class);
+        this.templates.forEach((name, path) -> templates.add(name));
+        this.configuration.setTemplates(templates.convertToArray());
+        this.configuration.saveToFile("storage", "templates.toml");
     }
 
     public Path getTemplate(String templateName) {
@@ -44,25 +61,31 @@ public class TemplateManager {
         if(this.templates.containsKey(templateName)) return 3;
         templates.put(templateName, Path.of(DEFAULT_PATH + templateName + "/"));
         File temp_dir = new File(this.templates.get(templateName).toUri());
-        if(!temp_dir.exists())
+        if(!temp_dir.exists()) {
             temp_dir.mkdirs();
+            temp_dir.setWritable(true, false);
+        }
+        saveTemplates();
         return 0;
     }
 
     public int renameTemplate(String templateName, String newTemplateName) {
-        if(newTemplateName.length() <= 2) return 1;
-        if(!CharsetUtil.isValidInput(newTemplateName)) return 2;
-        if(!this.templates.containsKey(templateName)) return 3;
-        Path path = this.templates.get(templateName);
-        this.templates.remove(templateName, path);
-        File newTemp = new File(path.toUri());
-        if(newTemp.renameTo(new File(DEFAULT_PATH + newTemplateName))) {
-            this.console.print("Directory Successful Renamed!");
-            this.templates.put(newTemplateName, newTemp.toPath());
+        try {
+            if (newTemplateName.length() <= 2) return 1;
+            if (!CharsetUtil.isValidInput(newTemplateName)) return 2;
+            if (!this.templates.containsKey(templateName)) return 3;
+            Path existingTemp = this.templates.get(templateName);
+            Path newTemp = Path.of(DEFAULT_PATH + newTemplateName);
+            Files.move(
+                    existingTemp,
+                    newTemp,
+                    StandardCopyOption.ATOMIC_MOVE
+            );
+            this.templates.remove(templateName, existingTemp);
+            this.templates.put(newTemplateName, newTemp);
             return 0;
-        } else {
-            this.console.print("Failed to rename Directory");
-            return 1;
+        } catch (IOException e) {
+            return 4;
         }
     }
 
@@ -74,4 +97,5 @@ public class TemplateManager {
         temp_dir.delete();
         return true;
     }
+
 }
