@@ -18,6 +18,7 @@ package eu.smoothcloud.node.console;
 import eu.smoothcloud.node.console.modes.DefaultMode;
 import eu.smoothcloud.node.console.modes.Mode;
 import eu.smoothcloud.node.console.modes.SetupMode;
+import eu.smoothcloud.node.template.TemplateManager;
 import eu.smoothcloud.util.console.ConsoleColor;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,10 +46,11 @@ public class JLineConsole {
     private boolean isRunning;
     private boolean isPaused;
 
+    private final TemplateManager templateManager;
     private Mode currentMode;
 
     @SneakyThrows
-    public JLineConsole() {
+    public JLineConsole(TemplateManager templateManager) {
         this.terminal = TerminalBuilder.builder()
                 .system(true)
                 .encoding(StandardCharsets.UTF_8)
@@ -65,7 +67,8 @@ public class JLineConsole {
         this.reader.setPrompt(coloredPrefix.toAnsi());
         this.isRunning = true;
         this.isPaused = false;
-        this.currentMode = new DefaultMode(this);
+        this.templateManager = templateManager;
+        this.currentMode = new DefaultMode(this, templateManager);
         this.clear();
         this.sendWelcomeMessage();
     }
@@ -114,7 +117,7 @@ public class JLineConsole {
     public void switchMode(String modeName) {
         switch (modeName.toLowerCase()) {
             case "setup" -> this.currentMode = new SetupMode(this);
-            case "default" -> this.currentMode = new DefaultMode(this);
+            case "default" -> this.currentMode = new DefaultMode(this, this.templateManager);
             default -> this.print("Unknown mode: " + modeName);
         }
     }

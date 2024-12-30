@@ -16,13 +16,16 @@
 package eu.smoothcloud.node.console.modes;
 
 import eu.smoothcloud.node.console.JLineConsole;
+import eu.smoothcloud.node.template.TemplateManager;
 import eu.smoothcloud.util.console.ConsoleColor;
 
 public class DefaultMode extends Mode {
     private final JLineConsole console;
+    private final TemplateManager templateManager;
 
-    public DefaultMode(JLineConsole console) {
+    public DefaultMode(JLineConsole console, TemplateManager templateManager) {
         this.console = console;
+        this.templateManager = templateManager;
     }
 
     @Override
@@ -67,6 +70,53 @@ public class DefaultMode extends Mode {
                         this.console.print("&fUsage:");
                         this.console.print("&7- &binfo version");
                         this.console.print("&7- &binfo group <group>");
+                    }
+                }
+            }
+            case "create" -> {
+                switch (args[0].toLowerCase()) {
+                    case "template" -> {
+                        switch (this.templateManager.addTemplate(args[1])) {
+                            case 0 -> this.console.print("&fYour Template with the Name: &b" + args[1] +  " &fis created!");
+                            case 1 -> this.console.print("[FF3333]The Entered Template Name: &b" + args[1] + " [FF3333]is to short!");
+                            case 2 -> this.console.print("[FF3333]The Entered Template Name: &b" + args[1] + " [FF3333]contains forbidden special character!");
+                            case 3 -> this.console.print("[FF3333]The Entered Template Name: &b" + args[1] + " [FF3333]already exists!");
+                        }
+                    }
+                    default -> {
+                        this.console.print("&fUsage:");
+                        this.console.print("&7- &bcreate template <templateName>");
+                    }
+                }
+            }
+            case "rename" -> {
+                switch (args[0].toLowerCase()) {
+                    case "template" -> {
+                        switch (this.templateManager.renameTemplate(args[1], args[2])) {
+                            case 0 -> this.console.print("&fYour Template with the Name: &b" + args[1] +  " &fis renamed to &b" + args[2] + " &f!");
+                            case 1 -> this.console.print("[FF3333]The Entered NewTemplate Name: &b" + args[2] + " [FF3333]is to short!");
+                            case 2 -> this.console.print("[FF3333]The Entered NewTemplate Name: &b" + args[2] + " [FF3333]contains forbidden special character!");
+                            case 3 -> this.console.print("[FF3333]The Entered Template Name: &b" + args[1] + " [FF3333]don't exists!");
+                        }
+                    }
+                    default -> {
+                        this.console.print("&fUsage:");
+                        this.console.print("&7- &brename template <templateName> <newTemplateName>");
+                    }
+                }
+            }
+            case "remove" -> {
+                switch (args[0].toLowerCase()) {
+                    case "template" -> {
+                        if (this.templateManager.removeTemplate(args[1])) {
+                            this.console.print("&fYour Template with the Name: &b" + args[1] +  "&fis removed!");
+                        } else {
+                            this.console.print("[FF3333]The Entered Template Name: &b" + args[1] + " [FF3333]don't exists!");
+                        }
+                    }
+                    default -> {
+                        this.console.print("&fUsage:");
+                        this.console.print("&7- &bremove template <templateName>");
                     }
                 }
             }
