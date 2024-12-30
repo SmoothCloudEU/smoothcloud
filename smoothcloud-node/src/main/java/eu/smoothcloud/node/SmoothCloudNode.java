@@ -16,11 +16,12 @@
 package eu.smoothcloud.node;
 
 import eu.smoothcloud.api.INode;
-import eu.smoothcloud.node.configuration.LaunchConfiguration;
-import eu.smoothcloud.node.configuration.MessageConfiguration;
-import eu.smoothcloud.node.configuration.TomlSerializable;
+import eu.smoothcloud.node.configuration.*;
 import eu.smoothcloud.node.console.JLineConsole;
+import lombok.Getter;
+import org.json.JSONArray;
 
+@Getter
 public class SmoothCloudNode implements INode {
 
     public static void main(String[] args) {
@@ -29,13 +30,18 @@ public class SmoothCloudNode implements INode {
 
     private final int threads;
     private final LaunchConfiguration launchConfiguration;
+    private TemplatesConfiguration templatesConfiguration;
     private MessageConfiguration messageConfiguration;
-
     private JLineConsole console;
 
     public SmoothCloudNode() {
         this.threads = Runtime.getRuntime().availableProcessors();
         this.launchConfiguration = TomlSerializable.loadFromFile(".", "config.toml", LaunchConfiguration.class);
+        this.templatesConfiguration = JsonSerializable.loadFromFile("storage", "templates.json", TemplatesConfiguration.class);
+        if (this.templatesConfiguration == null) {
+            this.templatesConfiguration = new TemplatesConfiguration(new JSONArray());
+            this.templatesConfiguration.saveToFile("storage", "templates.json");
+        }
         this.startConsole();
     }
 
@@ -57,15 +63,4 @@ public class SmoothCloudNode implements INode {
         this.console.print(this.console.prefix(), false);
     }
 
-    public JLineConsole getConsole() {
-        return console;
-    }
-
-    public LaunchConfiguration getLaunchConfiguration() {
-        return launchConfiguration;
-    }
-
-    public int getThreads() {
-        return threads;
-    }
 }
