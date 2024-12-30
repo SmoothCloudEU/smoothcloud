@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Base64;
 
 public class Downloader {
@@ -15,37 +16,30 @@ public class Downloader {
         String checkDir = "dependencies/" + groupId.replace(".", "/") + "/" + artifactId;
         File checkDirFile = new File(checkDir);
         String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
-        if (checkDirFile.exists()) {
-            if (checkDirFile.isDirectory()) {
-                if (checkDirFile.listFiles() != null && checkDirFile.listFiles().length > 0) {
-                    boolean skip = false;
-                    for (File file : checkDirFile.listFiles()) {
-                        if (file.isDirectory()) {
-                            if (file.getName().equalsIgnoreCase(version)) {
-                                skip = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (skip) {
-                        System.out.println("Skipped " + artifactId + ".");
-                        return;
-                    }
-                    boolean update = false;
-                    for (File file : checkDirFile.listFiles()) {
-                        if (file.isDirectory()) {
-                            if (file.delete()) {
-                                update = true;
-                                System.out.println("Updating... " + artifactId + ".");
-                            }
-                        }
-                    }
-                    if (update) {
-                        System.out.println("Updating " + artifactId + "...");
-                    } else {
-                        System.out.println("Downloading " + artifactId + "...");
-                    }
+        if (checkDirFile.exists() && checkDirFile.isDirectory()) {
+            File[] files = checkDirFile.listFiles();
+            if (files != null && files.length > 0) {
+                boolean skip = Arrays.stream(files)
+                        .filter(File::isDirectory)
+                        .anyMatch(file -> file.getName().equalsIgnoreCase(version));
+                if (skip) {
+                    System.out.println("Skipped " + artifactId + ".");
+                    return;
                 }
+                boolean versionExists = Arrays.stream(files)
+                        .anyMatch(file -> file.isDirectory() && file.getName().equalsIgnoreCase(version));
+                if (!versionExists) {
+                    Arrays.stream(files).forEach(file -> {
+                        if (file.isDirectory()) {
+                            deleteRecursively(file);
+                        } else {
+                            file.delete();
+                        }
+                    });
+                }
+                System.out.println(versionExists
+                        ? "Updating " + artifactId + "..."
+                        : "Downloading " + artifactId + "...");
             }
         }
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -88,4 +82,19 @@ public class Downloader {
         outputStream.close();
         System.out.println("Downloaded " + artifactId + ".");
     }
+
+    private static void deleteRecursively(File file) {
+        File[] subFiles = file.listFiles();
+        if (subFiles != null) {
+            for (File subFile : subFiles) {
+                if (subFile.isDirectory()) {
+                    deleteRecursively(subFile);
+                } else {
+                    subFile.delete();
+                }
+            }
+        }
+        file.delete(); // Lösche das Verzeichnis selbst
+    }
+
 }
