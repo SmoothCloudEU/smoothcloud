@@ -8,9 +8,6 @@ import lombok.Setter;
 public class TemplatesConfiguration implements TomlSerializable {
     private String[] templates;
 
-    public TemplatesConfiguration() {
-    }
-
     public TemplatesConfiguration(String[] templates) {
         this.templates = templates;
     }
