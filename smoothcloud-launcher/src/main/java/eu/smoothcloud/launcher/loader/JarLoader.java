@@ -1,4 +1,4 @@
-package eu.smoothcloud.launcher.util;
+package eu.smoothcloud.launcher.loader;
 
 import eu.smoothcloud.launcher.SmoothCloudClassLoader;
 import eu.smoothcloud.launcher.SmoothCloudLauncher;
@@ -14,12 +14,13 @@ public class JarLoader {
     public void loadJar(Path jarPath, String[] args) {
         try (SmoothCloudClassLoader classLoader = SmoothCloudLauncher.getClassLoader()) {
             classLoader.addURL(jarPath.toUri().toURL());
-            System.setProperty("startup", String.valueOf(System.currentTimeMillis()));
+            System.setProperty("smoothcloud-startup", String.valueOf(System.currentTimeMillis()));
             Thread.currentThread().setContextClassLoader(classLoader);
             String mainClass = mainClass(jarPath);
             Class<?> clazz = Class.forName(mainClass, true, classLoader);
             clazz.getMethod("main", String[].class).invoke(null, new Object[]{args});
-        } catch (InvocationTargetException ignored) {
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
         } catch (IOException | ClassNotFoundException | IllegalAccessException |
                  NoSuchMethodException e) {
             System.err.println("General error during JAR loading: " + e.getMessage());
