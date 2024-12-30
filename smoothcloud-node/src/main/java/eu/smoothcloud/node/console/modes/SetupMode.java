@@ -15,7 +15,6 @@
 
 package eu.smoothcloud.node.console.modes;
 
-import eu.smoothcloud.node.SmoothCloudNode;
 import eu.smoothcloud.node.configuration.LaunchConfiguration;
 import eu.smoothcloud.node.console.JLineConsole;
 import eu.smoothcloud.util.console.ConsoleColor;
