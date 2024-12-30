@@ -15,6 +15,13 @@
 
 package eu.smoothcloud.node.configuration;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
+
+@Setter
+@Getter
 public class LaunchConfiguration implements TomlSerializable {
     private boolean eula;
     private String language;
@@ -26,60 +33,12 @@ public class LaunchConfiguration implements TomlSerializable {
     public LaunchConfiguration() {
     }
 
-    public LaunchConfiguration(boolean eula, String language, String host, int port, int memory, int threads) {
+    public LaunchConfiguration(boolean eula, String language, String host, int port, int memory, int threads, ArrayList<String> test) {
         this.eula = eula;
         this.language = language;
         this.host = host;
         this.port = port;
         this.memory = memory;
         this.threads = threads;
-    }
-
-    public void setEula(boolean eula) {
-        this.eula = eula;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    public void setMemory(int memory) {
-        this.memory = memory;
-    }
-
-    public void setThreads(int threads) {
-        this.threads = threads;
-    }
-
-    public boolean isEula() {
-        return eula;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public String getHost() {
-        return host;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public int getMemory() {
-        return memory;
-    }
-
-    public int getThreads() {
-        return threads;
     }
 }

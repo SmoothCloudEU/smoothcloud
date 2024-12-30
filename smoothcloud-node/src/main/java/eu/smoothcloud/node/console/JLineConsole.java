@@ -19,6 +19,8 @@ import eu.smoothcloud.node.console.modes.DefaultMode;
 import eu.smoothcloud.node.console.modes.Mode;
 import eu.smoothcloud.node.console.modes.SetupMode;
 import eu.smoothcloud.util.console.ConsoleColor;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import org.jline.reader.EndOfFileException;
 import org.jline.reader.LineReader;
@@ -34,12 +36,15 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
+@Getter
+@Setter
 public class JLineConsole {
     private final Terminal terminal;
     private final LineReaderImpl reader;
 
     private boolean isRunning;
     private boolean isPaused;
+
     private Mode currentMode;
 
     @SneakyThrows
@@ -157,25 +162,5 @@ public class JLineConsole {
     public void clear() {
         this.terminal.puts(InfoCmp.Capability.clear_screen);
         this.terminal.flush();
-    }
-
-    public Mode getCurrentMode() {
-        return this.currentMode;
-    }
-
-    public void setPaused(boolean paused) {
-        this.isPaused = paused;
-    }
-
-    public boolean isPaused() {
-        return this.isPaused;
-    }
-
-    public void setRunning(boolean running) {
-        this.isRunning = running;
-    }
-
-    public boolean isRunning() {
-        return this.isRunning;
     }
 }

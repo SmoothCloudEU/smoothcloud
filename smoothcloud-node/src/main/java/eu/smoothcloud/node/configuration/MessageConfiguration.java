@@ -1,5 +1,8 @@
 package eu.smoothcloud.node.configuration;
 
+import lombok.Getter;
+
+@Getter
 public class MessageConfiguration implements TomlSerializable {
     private String prefix;
     private String setupLanguageQuestion;
@@ -9,29 +12,5 @@ public class MessageConfiguration implements TomlSerializable {
     private String setupThreadsQuestion;
     
     public MessageConfiguration() {
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public String getSetupLanguageQuestion() {
-        return setupLanguageQuestion;
-    }
-
-    public String getSetupHostQuestion() {
-        return setupHostQuestion;
-    }
-
-    public String getSetupPortQuestion() {
-        return setupPortQuestion;
-    }
-
-    public String getSetupMemoryQuestion() {
-        return setupMemoryQuestion;
-    }
-
-    public String getSetupThreadsQuestion() {
-        return setupThreadsQuestion;
     }
 }
