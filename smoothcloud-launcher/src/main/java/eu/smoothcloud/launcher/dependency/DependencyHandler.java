@@ -20,8 +20,6 @@ public class DependencyHandler {
         if (matcher.find()) {
             repoUrl = matcher.group(1);
         }
-
-        // URL erstellen
         return String.format(repoUrl, groupId.replace('.', '/'), artifactId, version, artifactId, version);
     }
 

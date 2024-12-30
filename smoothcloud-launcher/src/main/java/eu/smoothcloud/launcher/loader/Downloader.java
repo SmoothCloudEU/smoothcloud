@@ -7,11 +7,10 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Base64;
-import java.util.Scanner;
 
 public class Downloader {
 
-    public static void downloadJar(String fileUrl, String saveDir, String groupId, String artifactId, String version) throws IOException {
+    public static void downloadJar(String username, String password, String fileUrl, String saveDir, String groupId, String artifactId, String version) throws IOException {
         URL url = new URL(fileUrl);
         String checkDir = "dependencies/" + groupId.replace(".", "/") + "/" + artifactId;
         File checkDirFile = new File(checkDir);
@@ -26,14 +25,26 @@ public class Downloader {
                                 skip = true;
                                 break;
                             }
-                            return;
                         }
                     }
                     if (skip) {
                         System.out.println("Skipped " + artifactId + ".");
                         return;
                     }
-                    System.out.println("Downloading " + artifactId + "...");
+                    boolean update = false;
+                    for (File file : checkDirFile.listFiles()) {
+                        if (file.isDirectory()) {
+                            if (file.delete()) {
+                                update = true;
+                                System.out.println("Updating... " + artifactId + ".");
+                            }
+                        }
+                    }
+                    if (update) {
+                        System.out.println("Updating " + artifactId + "...");
+                    } else {
+                        System.out.println("Downloading " + artifactId + "...");
+                    }
                 }
             }
         }
@@ -43,13 +54,6 @@ public class Downloader {
         connection.setReadTimeout(5000);
         int responseCode = connection.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-            System.out.println("Authentifizierung erforderlich.");
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("Benutzername: ");
-            String username = scanner.nextLine();
-            System.out.print("Passwort: ");
-            String password = scanner.nextLine();
-            scanner.close();
             String auth = username + ":" + password;
             String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
             connection.disconnect();
@@ -61,7 +65,8 @@ public class Downloader {
             responseCode = connection.getResponseCode();
         }
         if (responseCode != HttpURLConnection.HTTP_OK) {
-            System.out.println("Kein erfolgreicher HTTP-Code: " + responseCode);
+            System.out.println("Argument-Authentifizierung --user --pwd erforderlich.");
+            System.exit(1);
             return;
         }
         File saveDirectory = new File(saveDir);

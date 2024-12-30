@@ -13,14 +13,37 @@ public class SmoothCloudLauncher {
     private static JarLoader jarLoader;
 
     public static void main(String[] args) throws IOException {
+        String username = null;
+        String password = null;
+        for (int i = 0; i < args.length; i++) {
+            switch (args[i]) {
+                case "--user" -> {
+                    if (i + 1 < args.length) {
+                        username = args[i + 1];
+                        i++;
+                    } else {
+                        System.out.println("Fehler: Kein Benutzername angegeben.");
+                        return;
+                    }
+                }
+                case "--pwd" -> {
+                    if (i + 1 < args.length) {
+                        password = args[i + 1];
+                        i++;
+                    } else {
+                        System.out.println("Fehler: Kein Passwort angegeben.");
+                        return;
+                    }
+                }
+            }
+        }
         classLoader = new SmoothCloudClassLoader();
         dependencyHandler = new DependencyHandler();
         jsonLoader = new JsonLoader("https://github.com/SmoothCloudEU/smoothcloud-manifest/raw/refs/heads/master/dependencyLoader.json");
-        jsonLoader.processJsonAndDownload();
+        jsonLoader.processJsonAndDownload(username, password);
         System.out.println("Starting smoothcloud-node...");
         jarLoader = new JarLoader();
-        System.out.println("SMOOTHCLOUD-NODE: " + dependencyHandler.getDependencyPaths().get("smoothcloud-node"));
-        jarLoader.loadJar(dependencyHandler.getDependencyPaths().get("smoothcloud-node"), args);
+        jarLoader.loadJar(dependencyHandler.getDependencyPaths().get("smoothcloud-node"), new String[]{});
     }
 
     public static SmoothCloudClassLoader getClassLoader() {

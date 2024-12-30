@@ -14,7 +14,7 @@ public class JarLoader {
     public void loadJar(Path jarPath, String[] args) {
         try (SmoothCloudClassLoader classLoader = SmoothCloudLauncher.getClassLoader()) {
             classLoader.addURL(jarPath.toUri().toURL());
-            System.setProperty("startup", String.valueOf(System.currentTimeMillis()));
+            System.setProperty("smoothcloud-startup", String.valueOf(System.currentTimeMillis()));
             Thread.currentThread().setContextClassLoader(classLoader);
             String mainClass = mainClass(jarPath);
             Class<?> clazz = Class.forName(mainClass, true, classLoader);

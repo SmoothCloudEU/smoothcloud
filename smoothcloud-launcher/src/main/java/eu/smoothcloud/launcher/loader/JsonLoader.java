@@ -31,7 +31,7 @@ public class JsonLoader {
         this.json = response.toString();
     }
 
-    public void processJsonAndDownload() {
+    public void processJsonAndDownload(String username, String password) {
         DependencyHandler dependencyHandler = SmoothCloudLauncher.getDependencyHandler();
         Pattern pattern = Pattern.compile("\"groupId\": \"([^\"]+)\",\\s*\"artifactId\": \"([^\"]+)\",\\s*\"version\": \"([^\"]+)\",\\s*\"repository\": \"([^\"]+)\"");
         Matcher matcher = pattern.matcher(this.json);
@@ -44,7 +44,7 @@ public class JsonLoader {
             String saveDir = "dependencies/" + groupId.replace(".", "/") + "/" + artifactId + "/" + version + "/";
             Path path = Path.of(saveDir + artifactId + "-" + version + ".jar");
             try {
-                Downloader.downloadJar(url, saveDir, groupId, artifactId, version);
+                Downloader.downloadJar(username, password, url, saveDir, groupId, artifactId, version);
                 dependencyHandler.getDependencyPaths().put(artifactId, path);
                 SmoothCloudLauncher.getClassLoader().addURL(path.toUri().toURL());
             } catch (IOException e) {
