@@ -5,25 +5,29 @@ import eu.smoothcloud.launcher.SmoothCloudLauncher;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 
 public class JarLoader {
 
-    public static void loadJar(Path jarPath, String[] args) {
+    public void loadJar(Path jarPath, String[] args) {
         try (SmoothCloudClassLoader classLoader = SmoothCloudLauncher.getClassLoader()) {
             classLoader.addURL(jarPath.toUri().toURL());
             System.setProperty("startup", String.valueOf(System.currentTimeMillis()));
             Thread.currentThread().setContextClassLoader(classLoader);
-            Class.forName(mainClass(jarPath), true, classLoader).getMethod("main", String[].class).invoke(null, new Object[]{args});
-        } catch (IOException | ClassNotFoundException | InvocationTargetException | IllegalAccessException |
+            String mainClass = mainClass(jarPath);
+            Class<?> clazz = Class.forName(mainClass, true, classLoader);
+            clazz.getMethod("main", String[].class).invoke(null, new Object[]{args});
+        } catch (InvocationTargetException ignored) {
+        } catch (IOException | ClassNotFoundException | IllegalAccessException |
                  NoSuchMethodException e) {
+            System.err.println("General error during JAR loading: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
-    private static String mainClass(Path jarPath) {
+
+    private String mainClass(Path jarPath) {
         try (JarFile jarFile = new JarFile(jarPath.toFile())) {
             var manifest = jarFile.getManifest();
             if (manifest != null) {
