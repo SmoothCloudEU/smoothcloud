@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 SmoothCloud team & contributors
+ * Copyright (c) 2024-2025 SmoothCloud team & contributors
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -36,7 +36,7 @@ public class ThreadManager {
         taskMap.put(taskName, future);
     }
 
-    public synchronized  <T> Future<T> submitTask(String taskName, Callable<T> task) {
+    public synchronized <T> Future<T> submitTask(String taskName, Callable<T> task) {
         if (taskMap.containsKey(taskName)) {
             return null;
         }

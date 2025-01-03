@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2025 SmoothCloud team & contributors
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package eu.smoothcloud.node.template;
 
 import eu.smoothcloud.node.configuration.TemplatesConfiguration;
@@ -16,7 +31,7 @@ public class TemplateManager {
     private final JLineConsole console;
     private final String DEFAULT_PATH = "templates/";
     private final String[] DEFAULT_TEMPLATES = {
-      "every/", "every_lobby/", "every_proxy/", "every_server/"
+            "every/", "every_lobby/", "every_proxy/", "every_server/"
     };
     @Getter
     private Map<String, Path> templates;
@@ -31,13 +46,13 @@ public class TemplateManager {
             this.templates.put(template, Path.of(DEFAULT_PATH + template));
         }
         File temp_dir = new File(DEFAULT_PATH);
-        if(!temp_dir.exists() || !temp_dir.isDirectory()) {
+        if (!temp_dir.exists() || !temp_dir.isDirectory()) {
             temp_dir.mkdirs();
             temp_dir.setWritable(true, false);
         }
         for (String def_temp : DEFAULT_TEMPLATES) {
             File def_temp_dir = new File(DEFAULT_PATH + def_temp);
-            if(!def_temp_dir.exists()) {
+            if (!def_temp_dir.exists()) {
                 def_temp_dir.mkdirs();
                 def_temp_dir.setWritable(true, false);
             }
@@ -56,12 +71,12 @@ public class TemplateManager {
     }
 
     public int addTemplate(String templateName) {
-        if(templateName.length() <= 2) return 1;
-        if(!CharsetUtil.isValidInput(templateName)) return 2;
-        if(this.templates.containsKey(templateName)) return 3;
+        if (templateName.length() <= 2) return 1;
+        if (!CharsetUtil.isValidInput(templateName)) return 2;
+        if (this.templates.containsKey(templateName)) return 3;
         templates.put(templateName, Path.of(DEFAULT_PATH + templateName + "/"));
         File temp_dir = new File(this.templates.get(templateName).toUri());
-        if(!temp_dir.exists()) {
+        if (!temp_dir.exists()) {
             temp_dir.mkdirs();
             temp_dir.setWritable(true, false);
         }
@@ -91,7 +106,7 @@ public class TemplateManager {
     }
 
     public boolean removeTemplate(String templateName) {
-        if(!this.templates.containsKey(templateName)) return false;
+        if (!this.templates.containsKey(templateName)) return false;
         Path path = this.templates.get(templateName);
         this.templates.remove(templateName, path);
         File temp_dir = new File(path.toUri());
