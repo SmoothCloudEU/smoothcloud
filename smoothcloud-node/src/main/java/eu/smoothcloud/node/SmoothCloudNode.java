@@ -16,7 +16,10 @@
 package eu.smoothcloud.node;
 
 import eu.smoothcloud.api.INode;
-import eu.smoothcloud.node.configuration.*;
+import eu.smoothcloud.node.configuration.LaunchConfiguration;
+import eu.smoothcloud.node.configuration.MessageConfiguration;
+import eu.smoothcloud.node.configuration.TemplatesConfiguration;
+import eu.smoothcloud.node.configuration.TomlSerializable;
 import eu.smoothcloud.node.console.JLineConsole;
 import eu.smoothcloud.node.template.TemplateManager;
 import eu.smoothcloud.util.converter.CloudList;

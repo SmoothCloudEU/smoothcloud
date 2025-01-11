@@ -16,8 +16,8 @@
 package eu.smoothcloud.node.configuration;
 
 import org.tomlj.Toml;
-import org.tomlj.TomlTable;
 import org.tomlj.TomlArray;
+import org.tomlj.TomlTable;
 
 import java.io.File;
 import java.io.FileWriter;
