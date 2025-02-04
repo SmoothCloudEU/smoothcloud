@@ -15,5 +15,5 @@
 
 package eu.smoothcloud.api.service;
 
-public interface IProxyService {
+public interface IProxyService extends IService {
 }

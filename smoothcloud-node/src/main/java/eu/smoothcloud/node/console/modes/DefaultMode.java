@@ -91,6 +91,15 @@ public class DefaultMode extends Mode {
                                     this.console.print("[FF3333]The Entered Template Name: &b" + args[1] + " [FF3333]already exists!");
                         }
                     }
+                    case "proxygroup" -> {
+
+                    }
+                    case "lobbygroup" -> {
+
+                    }
+                    case "servergroup" -> {
+
+                    }
                     default -> {
                         this.console.print("&fUsage:");
                         this.console.print("&7- &bcreate template <templateName>");
