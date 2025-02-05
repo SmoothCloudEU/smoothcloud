@@ -33,7 +33,7 @@ public class SmoothCloudNode implements INode {
     }
 
     private int threads;
-    private final LaunchConfiguration launchConfiguration;
+    private LaunchConfiguration launchConfiguration;
     private TemplatesConfiguration templatesConfiguration;
     private MessageConfiguration messageConfiguration;
     private JLineConsole console;
