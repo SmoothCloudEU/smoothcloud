@@ -21,7 +21,7 @@
 
     <groupId>eu.smoothcloud</groupId>
     <artifactId>smoothcloud-parent</artifactId>
-    <version>1.0.0-dev.70bc058</version>
+    <version>1.0.0-dev.c9acb00</version>
     <packaging>pom</packaging>
 
     <modules>
