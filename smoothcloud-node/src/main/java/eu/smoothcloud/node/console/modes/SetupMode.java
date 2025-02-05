@@ -48,89 +48,85 @@ public class SetupMode extends Mode {
 
     @Override
     public void handleCommand(String command, String[] args) {
-        switch (command) {
-            default -> {
-                switch (step) {
-                    case 1 -> {
-                        if (!command.equalsIgnoreCase("yes")) {
-                            this.console.print("You musst agree the eula.");
-                            return;
-                        }
-                        this.configuration.setEula(true);
-                        this.console.print("&aEula was successfully agreed.");
-                        this.console.print("Which language do you want to use? (en_US, de_DE)");
-                        step++;
+        switch (step) {
+            case 1 -> {
+                if (!command.equalsIgnoreCase("yes")) {
+                    this.console.print("You musst agree the eula.");
+                    return;
+                }
+                this.configuration.setEula(true);
+                this.console.print("&aEula was successfully agreed.");
+                this.console.print("Which language do you want to use? (en_US, de_DE)");
+                step++;
+            }
+            case 2 -> {
+                List<String> availableLanguages = new ArrayList<>(List.of("en_US", "de_DE"));
+                if (!availableLanguages.contains(command)) {
+                    this.console.print("[FF3333]We doesn't support this language.");
+                    return;
+                }
+                this.configuration.setLanguage(command);
+                this.console.print("&aLanguage [99FF99]" + command + " &awas successfully selected.");
+                this.console.print("Which host do you want to use? (" + String.join(", ", this.getAllAddresses()) + ")");
+                step++;
+            }
+            case 3 -> {
+                List<String> availableHosts = new ArrayList<>(this.getAllAddresses());
+                if (!availableHosts.contains(command)) {
+                    this.console.print("[FF3333]We doesn't support this host.");
+                    return;
+                }
+                this.configuration.setHost(command);
+                this.console.print("&aHost [99FF99]" + command + " &awas successfully selected.");
+                this.console.print("Which port do you want to use? (1 - 65535)");
+                step++;
+            }
+            case 4 -> {
+                try {
+                    int port = Integer.parseInt(command);
+                    if (port < 1 || port > 65535) {
+                        this.console.print("[FF3333]This port is invalid.");
+                        return;
                     }
-                    case 2 -> {
-                        List<String> availableLanguages = new ArrayList<>(List.of("en_US", "de_DE"));
-                        if (!availableLanguages.contains(command)) {
-                            this.console.print("[FF3333]We doesn't support this language.");
-                            return;
-                        }
-                        this.configuration.setLanguage(command);
-                        this.console.print("&aLanguage [99FF99]" + command + " &awas successfully selected.");
-                        this.console.print("Which host do you want to use? (" + String.join(", ", this.getAllAddresses()) + ")");
-                        step++;
+                    this.configuration.setPort(port);
+                    this.console.print("&aPort [99FF99]" + command + " &awas successfully selected.");
+                    this.console.print("How many memory do you want to use? (minimum 512)");
+                    step++;
+                } catch (NumberFormatException e) {
+                    this.console.print("[FF3333]Your input is not a number.");
+                }
+            }
+            case 5 -> {
+                try {
+                    int memory = Integer.parseInt(command);
+                    if (memory < 512) {
+                        this.console.print("[FF3333]Too little memory.");
+                        return;
                     }
-                    case 3 -> {
-                        List<String> availableHosts = new ArrayList<>(this.getAllAddresses());
-                        if (!availableHosts.contains(command)) {
-                            this.console.print("[FF3333]We doesn't support this host.");
-                            return;
-                        }
-                        this.configuration.setHost(command);
-                        this.console.print("&aHost [99FF99]" + command + " &awas successfully selected.");
-                        this.console.print("Which port do you want to use? (1 - 65535)");
-                        step++;
+                    this.configuration.setMemory(memory);
+                    this.console.print("[99FF99]" + command + " &aMB memory are successfully selected.");
+                    this.console.print("How many threads do you want to use? (maximum " + Runtime.getRuntime().availableProcessors() + ")");
+                    step++;
+                } catch (NumberFormatException e) {
+                    this.console.print("[FF3333]Your input is not a number.");
+                }
+            }
+            case 6 -> {
+                try {
+                    int threads = Integer.parseInt(command);
+                    if (threads > Runtime.getRuntime().availableProcessors()) {
+                        this.console.print("[FF3333]Your system doesn't support more than " + Runtime.getRuntime().availableProcessors() + " threads.");
+                        return;
                     }
-                    case 4 -> {
-                        try {
-                            int port = Integer.parseInt(command);
-                            if (port < 1 || port > 65535) {
-                                this.console.print("[FF3333]This port is invalid.");
-                                return;
-                            }
-                            this.configuration.setPort(port);
-                            this.console.print("&aPort [99FF99]" + command + " &awas successfully selected.");
-                            this.console.print("How many memory do you want to use? (minimum 512)");
-                            step++;
-                        } catch (NumberFormatException e) {
-                            this.console.print("[FF3333]Your input is not a number.");
-                        }
-                    }
-                    case 5 -> {
-                        try {
-                            int memory = Integer.parseInt(command);
-                            if (memory < 512) {
-                                this.console.print("[FF3333]Too little memory.");
-                                return;
-                            }
-                            this.configuration.setMemory(memory);
-                            this.console.print("[99FF99]" + command + " &aMB memory are successfully selected.");
-                            this.console.print("How many threads do you want to use? (maximum " + Runtime.getRuntime().availableProcessors() + ")");
-                            step++;
-                        } catch (NumberFormatException e) {
-                            this.console.print("[FF3333]Your input is not a number.");
-                        }
-                    }
-                    case 6 -> {
-                        try {
-                            int threads = Integer.parseInt(command);
-                            if (threads > Runtime.getRuntime().availableProcessors()) {
-                                this.console.print("[FF3333]Your system doesn't support more than " + Runtime.getRuntime().availableProcessors() + " threads.");
-                                return;
-                            }
-                            this.configuration.setThreads(threads);
-                            this.configuration.saveToFile(".", "config.toml");
-                            this.console.print("[99FF99]" + command + " &athreads are successfully selected.");
-                            this.console.print("Cloud was successfully set up.");
-                            this.console.switchMode("default");
-                            this.console.clear();
-                            this.console.sendWelcomeMessage();
-                        } catch (NumberFormatException e) {
-                            this.console.print("[FF3333]Your input is not a number.");
-                        }
-                    }
+                    this.configuration.setThreads(threads);
+                    this.configuration.saveToFile(".", "config.toml");
+                    this.console.print("[99FF99]" + command + " &athreads are successfully selected.");
+                    this.console.print("Cloud was successfully set up.");
+                    this.console.switchMode("default");
+                    this.console.clear();
+                    this.console.sendWelcomeMessage();
+                } catch (NumberFormatException e) {
+                    this.console.print("[FF3333]Your input is not a number.");
                 }
             }
         }

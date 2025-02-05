@@ -16,6 +16,7 @@
 package eu.smoothcloud.node.console.modes;
 
 import eu.smoothcloud.node.console.JLineConsole;
+import eu.smoothcloud.node.group.GroupType;
 import eu.smoothcloud.node.template.TemplateManager;
 import eu.smoothcloud.util.console.ConsoleColor;
 
@@ -91,17 +92,17 @@ public class DefaultMode extends Mode {
                                     this.console.print("[FF3333]The Entered Template Name: &b" + args[1] + " [FF3333]already exists!");
                         }
                     }
-                    case "proxygroup" -> {
-
-                    }
-                    case "lobbygroup" -> {
-
-                    }
-                    case "servergroup" -> {
-
-                    }
+                    case "proxygroup" ->
+                            this.console.setCurrentMode(new GroupSetupMode(this.console, this.templateManager, GroupType.PROXY));
+                    case "lobbygroup" ->
+                            this.console.setCurrentMode(new GroupSetupMode(this.console, this.templateManager, GroupType.LOBBY));
+                    case "servergroup" ->
+                            this.console.setCurrentMode(new GroupSetupMode(this.console, this.templateManager, GroupType.SERVER));
                     default -> {
                         this.console.print("&fUsage:");
+                        this.console.print("&7- &bcreate create proxygroup");
+                        this.console.print("&7- &bcreate create lobbygroup");
+                        this.console.print("&7- &bcreate create servergroup");
                         this.console.print("&7- &bcreate template <templateName>");
                     }
                 }
