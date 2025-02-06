@@ -100,9 +100,9 @@ public class DefaultMode extends Mode {
                             this.console.setCurrentMode(new GroupSetupMode(this.console, this.templateManager, GroupType.SERVER));
                     default -> {
                         this.console.print("&fUsage:");
-                        this.console.print("&7- &bcreate create proxygroup");
-                        this.console.print("&7- &bcreate create lobbygroup");
-                        this.console.print("&7- &bcreate create servergroup");
+                        this.console.print("&7- &bcreate proxygroup");
+                        this.console.print("&7- &bcreate lobbygroup");
+                        this.console.print("&7- &bcreate servergroup");
                         this.console.print("&7- &bcreate template <templateName>");
                     }
                 }
