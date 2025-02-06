@@ -100,7 +100,7 @@ public class SetupMode extends Mode {
                 try {
                     int memory = Integer.parseInt(command);
                     if (memory < 512) {
-                        this.console.print("[FF3333]Too little memory.");
+                        this.console.print("[FF3333]Insufficient memory.");
                         return;
                     }
                     this.configuration.setMemory(memory);
