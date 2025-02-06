@@ -17,7 +17,7 @@ package eu.smoothcloud.manager.httpserver;
 
 public class HttpServer {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
     }
 }
