@@ -1,11 +1,8 @@
 package eu.smoothcloud.node.group;
 
-import eu.smoothcloud.api.service.IService;
 import eu.smoothcloud.node.configuration.TomlSerializable;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Setter
 @Getter
@@ -26,8 +23,6 @@ public class Group implements TomlSerializable {
     private int newServicePercent;
     private boolean maintenance;
     private boolean staticServices;
-
-    private List<IService> services;
 
     public Group(GroupType type, String name) {
         this.type = type;

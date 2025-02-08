@@ -31,9 +31,14 @@ public class GroupSetupMode extends Mode {
 
     @Override
     public void handleCommand(String command, String[] args) {
+        if (args.length > 0) {
+            this.console.print("[FF3333]Arguemnts are not allowed in group-setup mode");
+            return;
+        }
         switch (step) {
             case 1 -> {
                 this.group = new Group(type, command);
+                this.group.setWorker(command);
                 this.console.print("Group name: " + group.getName());
                 this.console.print("Which template should be used?");
                 step++;
@@ -69,7 +74,7 @@ public class GroupSetupMode extends Mode {
                 this.group.setJava(command);
                 this.console.print("Java version: " + group.getJava());
                 this.console.print("Group creation was successfully.");
-                this.group.saveToFile("groups/" + type.name(), this.group.getName());
+                this.group.saveToFile("groups/" + type.name(), this.group.getName() + ".toml");
                 this.console.switchMode("default");
                 this.console.clear();
                 this.console.sendWelcomeMessage();
