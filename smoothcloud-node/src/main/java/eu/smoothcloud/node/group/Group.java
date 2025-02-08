@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Group implements TomlSerializable {
-    private final GroupType type;
+    private final String type;
     private final String name;
     private String template;
     private String worker;
@@ -25,12 +25,12 @@ public class Group implements TomlSerializable {
     private boolean staticServices;
 
     public Group(GroupType type, String name) {
-        this.type = type;
+        this.type = type.name();
         this.name = name;
     }
 
     public Group(GroupType type, String name, String template, String worker, String software, String version, String permission, String java, int priority, int minimumMemory, int maximumMemory, int minimumOnlineServices, int maximumOnlineServices, boolean isStaticServices, int newServicePercent, boolean maintenance, boolean staticServices) {
-        this.type = type;
+        this.type = type.name();
         this.name = name;
         this.template = template;
         this.worker = worker;

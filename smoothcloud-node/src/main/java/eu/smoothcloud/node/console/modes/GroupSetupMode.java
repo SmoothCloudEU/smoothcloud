@@ -74,7 +74,7 @@ public class GroupSetupMode extends Mode {
                 this.group.setJava(command);
                 this.console.print("Java version: " + group.getJava());
                 this.console.print("Group creation was successfully.");
-                this.group.saveToFile("groups/" + type.name(), this.group.getName() + ".toml");
+                this.group.saveToFile("groups/" + type.name().toLowerCase(), this.group.getName() + ".toml");
                 this.console.switchMode("default");
                 this.console.clear();
                 this.console.sendWelcomeMessage();
