@@ -105,21 +105,21 @@ public class DefaultMode extends Mode {
                     }
                     case "proxygroup" -> {
                         this.console.clear();
+                        this.console.setCurrentMode(new GroupSetupMode(this.console, this.templateManager, GroupType.PROXY));
                         this.console.sendFiglet();
                         this.console.print("&fWhat should be the name of the proxy group?");
-                        this.console.setCurrentMode(new GroupSetupMode(this.console, this.templateManager, GroupType.PROXY));
                     }
                     case "lobbygroup" -> {
                         this.console.clear();
+                        this.console.setCurrentMode(new GroupSetupMode(this.console, this.templateManager, GroupType.LOBBY));
                         this.console.sendFiglet();
                         this.console.print("&fWhat should be the name of the lobby group?");
-                        this.console.setCurrentMode(new GroupSetupMode(this.console, this.templateManager, GroupType.LOBBY));
                     }
                     case "servergroup" -> {
                         this.console.clear();
+                        this.console.setCurrentMode(new GroupSetupMode(this.console, this.templateManager, GroupType.SERVER));
                         this.console.sendFiglet();
                         this.console.print("&fWhat should be the name of the server group?");
-                        this.console.setCurrentMode(new GroupSetupMode(this.console, this.templateManager, GroupType.SERVER));
                     }
                     default -> {
                         this.console.print("&fUsage:");
