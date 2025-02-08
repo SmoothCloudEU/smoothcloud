@@ -21,7 +21,7 @@
     <parent>
         <groupId>eu.smoothcloud</groupId>
         <artifactId>smoothcloud-parent</artifactId>
-        <version>1.0.0-dev.9f5dbef</version>
+        <version>1.0.0-dev.16fa932</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     <artifactId>manager-api</artifactId>
