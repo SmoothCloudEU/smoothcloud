@@ -37,17 +37,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.4.2</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>eu.smoothcloud.node.SmoothCloudNode</mainClass>
-                        </manifest>
-                        <manifestEntries>
-                            <Created-By>ezTxmMC, SyntaxJason &amp; TntTastisch</Created-By>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -93,26 +82,31 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>smoothcloud-util</artifactId>
             <version>${project.parent.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty5-all</artifactId>
             <version>5.0.0.Alpha5</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty5-transport-classes-epoll</artifactId>
             <version>5.0.0.Alpha5</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty5-handler</artifactId>
             <version>5.0.0.Alpha5</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>it.unimi.dsi</groupId>
             <artifactId>fastutil</artifactId>
             <version>8.5.15</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

@@ -41,9 +41,8 @@ public interface TomlSerializable {
                 tomlBuilder.append(field.getName()).append(" = ");
                 if (value instanceof String) {
                     tomlBuilder.append("\"").append(value).append("\"");
-                } else if (value instanceof String[]) {
+                } else if (value instanceof String[] array) {
                     tomlBuilder.append("[");
-                    String[] array = (String[]) value;
                     for (int i = 0; i < array.length; i++) {
                         tomlBuilder.append("\"").append(array[i]).append("\"");
                         if (i < array.length - 1) {
@@ -99,8 +98,7 @@ public interface TomlSerializable {
                         field.set(instance, ((Long) value).intValue());
                         continue;
                     }
-                    if (field.getType().equals(String[].class) && value instanceof TomlArray) {
-                        TomlArray array = (TomlArray) value;
+                    if (field.getType().equals(String[].class) && value instanceof TomlArray array) {
                         String[] stringArray = new String[array.size()];
                         for (int i = 0; i < array.size(); i++) {
                             stringArray[i] = array.getString(i);
