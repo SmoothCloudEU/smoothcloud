@@ -15,5 +15,5 @@
 
 package eu.smoothcloud.api.service;
 
-public interface IDefaultService {
+public interface IDefaultService extends IService {
 }

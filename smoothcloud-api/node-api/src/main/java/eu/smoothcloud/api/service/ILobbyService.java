@@ -15,5 +15,5 @@
 
 package eu.smoothcloud.api.service;
 
-public interface ILobbyService {
+public interface ILobbyService extends IService {
 }

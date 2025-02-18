@@ -16,6 +16,7 @@
 package eu.smoothcloud.node.console.modes;
 
 import eu.smoothcloud.node.console.JLineConsole;
+import eu.smoothcloud.node.group.GroupType;
 import eu.smoothcloud.node.template.TemplateManager;
 import eu.smoothcloud.util.console.ConsoleColor;
 
@@ -43,15 +44,18 @@ public class DefaultMode extends Mode {
         switch (command.toLowerCase()) {
             case "help" -> {
                 this.console.print("&7-------------------------------&bHelp&7-------------------------------");
-                this.console.print(" &bexit                     &7- &fShutdown the cloud");
-                this.console.print(" &bhelp                     &7- &fShow this help menu.");
-                this.console.print(" &binfo version             &7- &fDisplays the current version of the cloud.");
-                this.console.print(" &binfo group <group>       &7- &fDisplays information about the group. ");
-                this.console.print(" &binfo service <service>   &7- &fDisplays information about the service. ");
-                this.console.print(" &bcreate template <templateName>                     &7- &fCreate a Template. ");
-                this.console.print(" &brename template <templateName> <newTemplateName>   &7- &fRename a Template. ");
-                this.console.print(" &bremove template <templateName>                     &7- &fRemove a Template. ");
-                this.console.print(" &blist templates                                     &7- &fRemove a Template. ");
+                this.console.print(" &bexit &7- &fShutdown the cloud");
+                this.console.print(" &bhelp &7- &fShow this help menu.");
+                this.console.print(" &binfo version &7- &fDisplays the current version of the cloud.");
+                this.console.print(" &binfo group <group> &7- &fDisplays information about the group. ");
+                this.console.print(" &binfo service <service> &7- &fDisplays information about the service. ");
+                this.console.print(" &bcreate template <templateName> &7- &fCreate a Template. ");
+                this.console.print(" &bcreate proxygroup &7- &fCreate a proxy group. ");
+                this.console.print(" &bcreate lobbygroup &7- &fCreate a lobby group. ");
+                this.console.print(" &bcreate servergroup &7- &fCreate a server group. ");
+                this.console.print(" &brename template <templateName> <newTemplateName> &7- &fRename a Template. ");
+                this.console.print(" &bremove template <templateName> &7- &fRemove a Template. ");
+                this.console.print(" &blist templates &7- &fRemove a Template. ");
                 this.console.print("&7-------------------------------&bHelp&7-------------------------------");
             }
             case "info" -> {
@@ -78,6 +82,14 @@ public class DefaultMode extends Mode {
                 }
             }
             case "create" -> {
+                if (args.length == 0) {
+                    this.console.print("&fUsage:");
+                    this.console.print("&7- &bcreate proxygroup");
+                    this.console.print("&7- &bcreate lobbygroup");
+                    this.console.print("&7- &bcreate servergroup");
+                    this.console.print("&7- &bcreate template <templateName>");
+                    return;
+                }
                 switch (args[0].toLowerCase()) {
                     case "template" -> {
                         switch (this.templateManager.addTemplate(args[1])) {
@@ -91,8 +103,29 @@ public class DefaultMode extends Mode {
                                     this.console.print("[FF3333]The Entered Template Name: &b" + args[1] + " [FF3333]already exists!");
                         }
                     }
+                    case "proxygroup" -> {
+                        this.console.clear();
+                        this.console.setCurrentMode(new GroupSetupMode(this.console, this.templateManager, GroupType.PROXY));
+                        this.console.sendFiglet();
+                        this.console.print("&fWhat should be the name of the proxy group?");
+                    }
+                    case "lobbygroup" -> {
+                        this.console.clear();
+                        this.console.setCurrentMode(new GroupSetupMode(this.console, this.templateManager, GroupType.LOBBY));
+                        this.console.sendFiglet();
+                        this.console.print("&fWhat should be the name of the lobby group?");
+                    }
+                    case "servergroup" -> {
+                        this.console.clear();
+                        this.console.setCurrentMode(new GroupSetupMode(this.console, this.templateManager, GroupType.SERVER));
+                        this.console.sendFiglet();
+                        this.console.print("&fWhat should be the name of the server group?");
+                    }
                     default -> {
                         this.console.print("&fUsage:");
+                        this.console.print("&7- &bcreate proxygroup");
+                        this.console.print("&7- &bcreate lobbygroup");
+                        this.console.print("&7- &bcreate servergroup");
                         this.console.print("&7- &bcreate template <templateName>");
                     }
                 }

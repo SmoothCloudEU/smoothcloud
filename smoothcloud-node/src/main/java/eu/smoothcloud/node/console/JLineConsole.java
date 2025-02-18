@@ -162,6 +162,18 @@ public class JLineConsole {
         System.out.print("\n");
     }
 
+    public void sendFiglet() {
+        System.out.println("""
+                
+                 _____                       _   _     _____ _                 _\s
+                /  ___|                     | | | |   /  __ \\ |               | |
+                \\ `--. _ __ ___   ___   ___ | |_| |__ | /  \\/ | ___  _   _  __| |
+                 `--. \\ '_ ` _ \\ / _ \\ / _ \\| __| '_ \\| |   | |/ _ \\| | | |/ _` |
+                /\\__/ / | | | | | (_) | (_) | |_| | | | \\__/\\ | (_) | |_| | (_| |
+                \\____/|_| |_| |_|\\___/ \\___/ \\__|_| |_|\\____/_|\\___/ \\__,_|\\__,_|
+                """);
+    }
+
     public void clear() {
         this.terminal.puts(InfoCmp.Capability.clear_screen);
         this.terminal.flush();
