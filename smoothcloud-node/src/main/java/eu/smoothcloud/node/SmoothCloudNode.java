@@ -33,11 +33,11 @@ public class SmoothCloudNode implements INode {
     }
 
     private int threads;
-    private LaunchConfiguration launchConfiguration;
+    private final LaunchConfiguration launchConfiguration;
     private TemplatesConfiguration templatesConfiguration;
     private MessageConfiguration messageConfiguration;
     private JLineConsole console;
-    private TemplateManager templateManager;
+    private final TemplateManager templateManager;
 
     public SmoothCloudNode() {
         this.threads = 2;
@@ -69,5 +69,4 @@ public class SmoothCloudNode implements INode {
         }
         this.console.print(this.console.prefix(), false);
     }
-
 }
