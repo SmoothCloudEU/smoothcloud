@@ -15,9 +15,9 @@
 
 package eu.smoothcloud.node.console;
 
-import eu.smoothcloud.node.console.modes.DefaultMode;
-import eu.smoothcloud.node.console.modes.Mode;
-import eu.smoothcloud.node.console.modes.SetupMode;
+import eu.smoothcloud.node.console.mode.DefaultMode;
+import eu.smoothcloud.node.console.mode.Mode;
+import eu.smoothcloud.node.console.mode.SetupMode;
 import eu.smoothcloud.node.template.TemplateManager;
 import eu.smoothcloud.util.console.ConsoleColor;
 import lombok.Getter;
@@ -35,7 +35,10 @@ import org.jline.utils.InfoCmp;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 @Getter
 @Setter
@@ -48,6 +51,8 @@ public class JLineConsole {
 
     private final TemplateManager templateManager;
     private Mode currentMode;
+
+    private final HashMap<Mode, List<String>> logs;
 
     @SneakyThrows
     public JLineConsole(TemplateManager templateManager) {
@@ -69,6 +74,7 @@ public class JLineConsole {
         this.isPaused = false;
         this.templateManager = templateManager;
         this.currentMode = new DefaultMode(this, templateManager);
+        this.logs = new HashMap<>();
         this.clear();
         this.sendWelcomeMessage();
     }
@@ -120,6 +126,10 @@ public class JLineConsole {
             case "default" -> this.currentMode = new DefaultMode(this, this.templateManager);
             default -> this.print("Unknown mode: " + modeName);
         }
+        this.clear();
+        if (this.logs.containsKey(this.currentMode)) {
+            this.logs.forEach((mode, strings) -> strings.forEach(this::print));
+        }
     }
 
     public String prefix() {
@@ -144,6 +154,7 @@ public class JLineConsole {
 
     public void print(String message, boolean newLine) {
         String coloredMessage = ConsoleColor.apply(this.prefix() + message);
+        this.logs.computeIfAbsent(this.currentMode, mode -> new ArrayList<>()).add(coloredMessage);
         if (newLine) {
             System.out.println(coloredMessage);
             return;
