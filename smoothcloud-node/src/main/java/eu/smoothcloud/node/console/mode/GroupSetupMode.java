@@ -1,4 +1,4 @@
-package eu.smoothcloud.node.console.modes;
+package eu.smoothcloud.node.console.mode;
 
 import eu.smoothcloud.node.console.JLineConsole;
 import eu.smoothcloud.node.group.Group;

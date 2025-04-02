@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package eu.smoothcloud.node.console.modes;
+package eu.smoothcloud.node.console.mode;
 
 import eu.smoothcloud.node.configuration.LaunchConfiguration;
 import eu.smoothcloud.node.console.JLineConsole;
