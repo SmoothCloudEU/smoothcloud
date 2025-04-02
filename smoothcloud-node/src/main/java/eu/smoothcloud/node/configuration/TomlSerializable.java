@@ -35,6 +35,9 @@ public interface TomlSerializable {
         var fields = this.getClass().getDeclaredFields();
         Arrays.sort(fields, Comparator.comparing(Field::getName));
         for (var field : fields) {
+            if (field.isAnnotationPresent(TomlIgnore.class)) {
+                continue;
+            }
             field.setAccessible(true);
             try {
                 Object value = field.get(this);

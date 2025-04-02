@@ -1,8 +1,13 @@
 package eu.smoothcloud.node.group;
 
+import eu.smoothcloud.api.service.IService;
+import eu.smoothcloud.node.configuration.TomlIgnore;
 import eu.smoothcloud.node.configuration.TomlSerializable;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -23,10 +28,11 @@ public class Group implements TomlSerializable {
     private int newServicePercent;
     private boolean maintenance;
     private boolean staticServices;
+    @TomlIgnore
+    private List<IService> services;
 
     public Group(GroupType type, String name) {
-        this.type = type.name();
-        this.name = name;
+        this(type, name, null, null, null, null, null, null, 0, 0, 0, 0, 0, false, 0, false, false);
     }
 
     public Group(GroupType type, String name, String template, String worker, String software, String version, String permission, String java, int priority, int minimumMemory, int maximumMemory, int minimumOnlineServices, int maximumOnlineServices, boolean isStaticServices, int newServicePercent, boolean maintenance, boolean staticServices) {
@@ -46,6 +52,7 @@ public class Group implements TomlSerializable {
         this.newServicePercent = newServicePercent;
         this.maintenance = maintenance;
         this.staticServices = staticServices;
+        this.services = new ArrayList<>();
     }
 
     public void startNewService() {}
