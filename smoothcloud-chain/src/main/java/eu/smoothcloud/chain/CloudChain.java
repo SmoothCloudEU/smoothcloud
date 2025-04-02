@@ -15,16 +15,29 @@
 
 package eu.smoothcloud.chain;
 
+import com.nexoscript.nexonet.server.Server;
+
 public class CloudChain {
+    private final int port;
+    private final Server server;
 
-    private static int DEFAULT_PORT = 53721;
+    public CloudChain(int port) {
+        this.port = port;
+        this.server = new Server(true);
+        this.server.onClientConnect(clientHandler -> {
 
-    public CloudChain() {
+        });
+        this.server.onClientDisconnect(clientHandler -> {
 
+        });
+        this.server.onServerSend((clientHandler, packet) -> {
+
+        });
+        this.server.onClientDisconnect(clientHandler -> {
+
+        });
+        this.server.start(this.port);
     }
 
-    public void initialize() {
-
-    }
 
 }

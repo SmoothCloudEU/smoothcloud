@@ -77,6 +77,13 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>eztxm-repo</id>
+            <url>https://repo.eztxm.de/maven/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
@@ -85,27 +92,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty5-all</artifactId>
-            <version>5.0.0.Alpha5</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty5-transport-classes-epoll</artifactId>
-            <version>5.0.0.Alpha5</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty5-handler</artifactId>
-            <version>5.0.0.Alpha5</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>it.unimi.dsi</groupId>
-            <artifactId>fastutil</artifactId>
-            <version>8.5.15</version>
+            <groupId>com.nexoscript</groupId>
+            <artifactId>nexo-net-server</artifactId>
+            <version>0.1.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
