@@ -38,6 +38,4 @@ public class CloudChain {
         });
         this.server.start(this.port);
     }
-
-
 }
