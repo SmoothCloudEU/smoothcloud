@@ -15,5 +15,37 @@
 
 package eu.smoothcloud.worker;
 
+import eu.smoothcloud.api.group.IGroup;
+import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
 public class Worker {
+    private final List<IGroup> groups;
+
+    public Worker() {
+        this.groups = new ArrayList<>();
+    }
+
+    public void addGroup(IGroup group) {
+        this.groups.add(group);
+    }
+
+    public void removeGroup(IGroup group) {
+        this.groups.remove(group);
+    }
+
+    public void startService() {
+
+    }
+
+    public void stopService(int id) {
+
+    }
+
+    public void restartService(int id) {
+
+    }
 }

@@ -1,8 +1,10 @@
 package eu.smoothcloud.node.group;
 
+import eu.smoothcloud.api.group.IGroup;
 import eu.smoothcloud.api.service.IService;
 import eu.smoothcloud.node.configuration.TomlIgnore;
 import eu.smoothcloud.node.configuration.TomlSerializable;
+import eu.smoothcloud.worker.Worker;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +13,7 @@ import java.util.List;
 
 @Setter
 @Getter
-public class Group implements TomlSerializable {
+public class Group implements IGroup, TomlSerializable {
     private final String type;
     private final String name;
     private String template;
@@ -28,6 +30,8 @@ public class Group implements TomlSerializable {
     private int newServicePercent;
     private boolean maintenance;
     private boolean staticServices;
+    @TomlIgnore
+    private Worker cloudWorker;
     @TomlIgnore
     private List<IService> services;
 
@@ -52,8 +56,29 @@ public class Group implements TomlSerializable {
         this.newServicePercent = newServicePercent;
         this.maintenance = maintenance;
         this.staticServices = staticServices;
+        this.cloudWorker = new Worker();
         this.services = new ArrayList<>();
     }
 
-    public void startNewService() {}
+    @Override
+    public void startNewService() {
+        this.cloudWorker.startService();
+    }
+
+    @Override
+    public void stopService(int id) {
+        this.cloudWorker.stopService(id);
+    }
+
+    @Override
+    public void stopServices() {
+        for (IService service : this.services) {
+            this.stopService(service.getId());
+        }
+    }
+
+    @Override
+    public void restartService(int id) {
+        this.cloudWorker.restartService(id);
+    }
 }
