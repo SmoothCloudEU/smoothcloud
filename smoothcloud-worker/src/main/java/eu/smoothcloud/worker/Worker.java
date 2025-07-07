@@ -16,17 +16,27 @@
 package eu.smoothcloud.worker;
 
 import eu.smoothcloud.api.group.IGroup;
+import eu.smoothcloud.util.process.ProcessType;
+import eu.smoothcloud.worker.process.ProcessBuilder;
 import lombok.Getter;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 public class Worker {
+    private final ProcessType processType;
     private final List<IGroup> groups;
+    private final Map<String, Process> processes; 
 
-    public Worker() {
+    public Worker(ProcessType processType) {
+        this.processType = processType;
         this.groups = new ArrayList<>();
+        this.processes = new HashMap<>();
     }
 
     public void addGroup(IGroup group) {
@@ -37,15 +47,37 @@ public class Worker {
         this.groups.remove(group);
     }
 
-    public void startService() {
+    public void startService(IGroup group) {
+        String name = generateNextName(group);
+        try {
+            Process process = new ProcessBuilder()
+                    .jar("server.jar")
+                    .withArgument("--nogui")
+                    .workingDirectory(new File("services/" + (group.isStaticServices() ? "static" : "temporary") + "/" + name))
+                    .inheritIO(true)
+                    .start();
+            processes.put(name, process);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void stopService(String name) {
 
     }
 
-    public void stopService(int id) {
+    public void restartService(String name) {
 
     }
 
-    public void restartService(int id) {
-
+    public String generateNextName(IGroup group) {
+        int counter = 1;
+        String baseName = group.getName();
+        String nextName = baseName + "-" + counter;
+        while (processes.containsKey(nextName)) {
+            counter++;
+            nextName = baseName + "-" + counter;
+        }
+        return nextName;
     }
 }

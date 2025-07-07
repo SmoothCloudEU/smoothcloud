@@ -27,9 +27,10 @@ import lombok.Getter;
 
 @Getter
 public class SmoothCloudNode implements INode {
+    private static SmoothCloudNode instance;
 
     public static void main(String[] args) {
-        new SmoothCloudNode();
+        instance = new SmoothCloudNode();
     }
 
     private int threads;
@@ -68,5 +69,9 @@ public class SmoothCloudNode implements INode {
             this.messageConfiguration = TomlSerializable.loadFromFile(".", "storage/language/" + this.launchConfiguration.getLanguage() + ".toml", MessageConfiguration.class);
         }
         this.console.print(this.console.prefix(), false);
+    }
+
+    public static SmoothCloudNode getInstance() {
+        return instance;
     }
 }
