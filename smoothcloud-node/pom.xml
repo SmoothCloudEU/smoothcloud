@@ -27,8 +27,7 @@
     <artifactId>smoothcloud-node</artifactId>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <build.number>dev</build.number>
         <build.name>${project.arifactId}-${project.version}-${build.number}</build.name>
